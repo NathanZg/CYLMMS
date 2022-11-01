@@ -1,0 +1,61 @@
+JFDML JFormDesigner: "8.0.0.0.194" Java: "11.0.15" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {comp tabbedPane::l:::x}"
+			"$verticalGroup": "par l {comp tabbedPane::l:::x}"
+		} ) {
+			name: "mainFrame"
+			"title": "团员管理系统"
+			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
+				name: "tabbedPane"
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 7, false )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {space :0:973:x}"
+					"$verticalGroup": "par l {space :0:483:x}"
+				} ) {
+					name: "indexPanel"
+				}, new FormLayoutConstraints( null ) {
+					"title": "首页"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {space :0:973:x}"
+					"$verticalGroup": "par l {space :0:483:x}"
+				} ) {
+					name: "selectPanel"
+				}, new FormLayoutConstraints( null ) {
+					"title": "团员信息查询"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {space :0:973:x}"
+					"$verticalGroup": "par l {space :0:483:x}"
+				} ) {
+					name: "updatePanel"
+				}, new FormLayoutConstraints( null ) {
+					"title": "团员信息修改"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {space :0:973:x}"
+					"$verticalGroup": "par l {space :0:483:x}"
+				} ) {
+					name: "addPanel"
+				}, new FormLayoutConstraints( null ) {
+					"title": "团员转接"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {space :0:973:x}"
+					"$verticalGroup": "par l {space :0:483:x}"
+				} ) {
+					name: "deletePanel"
+				}, new FormLayoutConstraints( null ) {
+					"title": "删除团籍"
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 780, 450 )
+		} )
+	}
+}

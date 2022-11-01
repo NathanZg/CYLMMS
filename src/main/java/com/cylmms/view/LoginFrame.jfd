@@ -1,0 +1,70 @@
+JFDML JFormDesigner: "8.0.0.0.194" Java: "11.0.15" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {comp layeredPane::l::723:x}"
+			"$verticalGroup": "par l {comp layeredPane::l::487:x}"
+		} ) {
+			name: "loginFrame"
+			"iconImage": sfield com.jformdesigner.model.FormObject NULL_VALUE
+			"title": "团员管理系统-登陆"
+			add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
+				name: "layeredPane"
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq l {space :160:160:p, par l {seq l {comp passwordLabel:::p::p, space :::p, comp passwordField:::p:281:p}, seq l {comp acountLabel:::p::p, space :::p, comp accountField:::p:281:p}, seq l {space :p:75:p, comp loginButton:::p::p, space :p:65:p, comp exitButton:::p::p}}, space ::199:x}}"
+					"$verticalGroup": "par l {seq l {space :p:53:p, par t {comp accountField:::p:35:p, comp acountLabel:::p::p}, space :p:58:p, par l {comp passwordLabel:::p::p, comp passwordField:::p:35:p}, space :p:100:p, par b {comp exitButton::b:p:47:p, comp loginButton::b:::x}, space ::159:x}}"
+				} ) {
+					name: "contentPanel"
+					"opaque": false
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "acountLabel"
+						"text": "账号："
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 15, false )
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "accountField"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "passwordLabel"
+						"text": "密码："
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 15, false )
+					} )
+					add( new FormComponent( "javax.swing.JPasswordField" ) {
+						name: "passwordField"
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "loginButton"
+						"text": "登陆"
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 15, false )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "exitButton"
+						"text": "退出"
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 15, false )
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"location": new java.awt.Point( 75, 30 )
+					"size": new java.awt.Dimension( 580, 390 )
+					"x": 5
+					"y": 0
+					"layer": 100
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "background"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/background.jpg" )
+					"horizontalAlignment": 0
+				}, new FormLayoutConstraints( null ) {
+					"x": 0
+					"y": 0
+					"width": 725
+					"height": 485
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 75, 0 )
+			"size": new java.awt.Dimension( 580, 420 )
+		} )
+	}
+}
