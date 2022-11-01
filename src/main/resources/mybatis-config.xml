@@ -52,7 +52,9 @@
     </environments>
     <!--引入映射文件-->
     <mappers>
-        <package name="com.cylmms.mapper"/>
+        <mapper resource="com/cylmms/mapper/xml/MemberMapper.xml"></mapper>
+        <mapper resource="com/cylmms/mapper/xml/UserMapper.xml"></mapper>
+        <mapper resource="com/cylmms/mapper/xml/GroupMapper.xml"></mapper>
     </mappers>
 
 </configuration>

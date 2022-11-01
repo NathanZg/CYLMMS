@@ -1,5 +1,6 @@
 package com.cylmms.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -12,7 +13,7 @@ import java.io.InputStream;
  * @author EKERTREE
  * @Date 2022/11/01 13:53
  **/
-
+@Slf4j
 public class BaseService {
     /**
      * 单实例对象，不然数据库连接池会初始化很多次
@@ -24,7 +25,7 @@ public class BaseService {
         try {
             is = Resources.getResourceAsStream("mybatis-config.xml");
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
         SQL_SESSION_FACTORY = new SqlSessionFactoryBuilder().build(is);
     }
