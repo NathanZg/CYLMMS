@@ -44,6 +44,7 @@ new FormModel {
 						name: "exitButton"
 						"text": "退出"
 						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 15, false )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "exit", true ) )
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"location": new java.awt.Point( 75, 30 )

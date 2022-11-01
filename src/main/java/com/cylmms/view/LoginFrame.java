@@ -44,6 +44,10 @@ public class LoginFrame {
         }
     }
 
+    private void exit(ActionEvent e) {
+        closeView();
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         loginFrame = new JFrame();
@@ -86,6 +90,7 @@ public class LoginFrame {
                     //---- exitButton ----
                     exitButton.setText("\u9000\u51fa");
                     exitButton.setFont(exitButton.getFont().deriveFont(exitButton.getFont().getSize() + 15f));
+                    exitButton.addActionListener(e -> exit(e));
 
                     GroupLayout contentPanelLayout = new GroupLayout(contentPanel);
                     contentPanel.setLayout(contentPanelLayout);
