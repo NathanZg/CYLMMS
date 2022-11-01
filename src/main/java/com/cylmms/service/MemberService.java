@@ -55,9 +55,10 @@ public class MemberService extends BaseService {
             MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
             if (check(member)) {
                 mapper.insert(member);
+            } else {
+                throw new Exception("属性不可以为空！");
             }
         }
-        throw new Exception("属性不可以为空！");
     }
 
     public static void updateMember(Member member) throws Exception {
@@ -65,9 +66,10 @@ public class MemberService extends BaseService {
             MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
             if (check(member)) {
                 mapper.updateByPrimaryKey(member);
+            } else {
+                throw new Exception("属性不可以为空！");
             }
         }
-        throw new Exception("属性不可以为空！");
     }
 
     public static void deleteMember(Member member) {

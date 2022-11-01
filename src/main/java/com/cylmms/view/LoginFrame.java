@@ -4,8 +4,12 @@
 
 package com.cylmms.view;
 
+import com.cylmms.pojo.User;
+import com.cylmms.service.UserService;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 /**
  * @author ekertree
@@ -27,6 +31,17 @@ public class LoginFrame {
 
     public void closeView() {
         loginFrame.dispose();
+    }
+
+    private void login(ActionEvent e) {
+        String idCard = accountField.getText();
+        String password = new String(passwordField.getPassword());
+        User user = new User(idCard, password);
+        if (UserService.login(user)) {
+            closeView();
+            MainFrame mainFrame = new MainFrame();
+            mainFrame.openView();
+        }
     }
 
     private void initComponents() {
@@ -66,6 +81,7 @@ public class LoginFrame {
                     //---- loginButton ----
                     loginButton.setText("\u767b\u9646");
                     loginButton.setFont(loginButton.getFont().deriveFont(loginButton.getFont().getSize() + 15f));
+                    loginButton.addActionListener(e -> login(e));
 
                     //---- exitButton ----
                     exitButton.setText("\u9000\u51fa");
