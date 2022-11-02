@@ -11,6 +11,7 @@ import com.cylmms.vo.MemberVo;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.List;
 public class MainFrame {
     public MainFrame() {
         initComponents();
+        customInitComponents();
     }
 
     public static void main(String[] args) {
@@ -77,6 +79,15 @@ public class MainFrame {
                 return columnTypes[columnIndex];
             }
         });
+    }
+
+    private void setTableHeaderFont() {
+        JTableHeader tableHeader = memberTable.getTableHeader();
+        tableHeader.setFont(tableHeader.getFont().deriveFont(tableHeader.getFont().getSize() + 5f));
+    }
+
+    private void customInitComponents() {
+        setTableHeaderFont();
     }
 
     private void initComponents() {
