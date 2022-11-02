@@ -54,7 +54,7 @@
     <mappers>
         <mapper resource="com/cylmms/mapper/xml/MemberMapper.xml"></mapper>
         <mapper resource="com/cylmms/mapper/xml/UserMapper.xml"></mapper>
-        <mapper resource="com/cylmms/mapper/xml/GroupMapper.xml"></mapper>
+        <mapper resource="com/cylmms/mapper/xml/GpMapper.xml"></mapper>
     </mappers>
 
 </configuration>

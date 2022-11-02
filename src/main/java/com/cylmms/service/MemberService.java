@@ -130,13 +130,13 @@ public class MemberService extends BaseService {
 
     public static boolean check(Member member) {
         if (member.getAffiliated() == null ||
-                member.getName() == null ||
-                member.getIdCard() == null ||
-                member.getPoliticsStatus() == null ||
+                StrUtil.isEmpty(member.getName()) ||
+                StrUtil.isEmpty(member.getIdCard()) ||
+                StrUtil.isEmpty(member.getPoliticsStatus()) ||
                 member.getAge() == null ||
-                member.getDuty() == null ||
+                StrUtil.isEmpty(member.getDuty()) ||
                 member.getGroupAge() == null ||
-                member.getNational() == null) {
+                StrUtil.isEmpty(member.getNational())) {
             return false;
         }
         return true;
@@ -146,7 +146,7 @@ public class MemberService extends BaseService {
         try (SqlSession sqlSession = getSqlSession()) {
             MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
             String idCard = member.getIdCard();
-            if (idCard != null) {
+            if (!StrUtil.isEmpty(idCard)) {
                 Member res = mapper.selectByPrimaryKey(idCard);
                 return res != null;
             } else {

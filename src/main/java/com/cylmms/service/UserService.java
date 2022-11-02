@@ -44,7 +44,7 @@ public class UserService extends BaseService {
         try (SqlSession sqlSession = getSqlSession()) {
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
             String idCard = user.getIdCard();
-            if (idCard != null) {
+            if (!StrUtil.isEmpty(idCard)) {
                 User res = mapper.selectByPrimaryKey(idCard);
                 return res != null;
             } else {
@@ -115,10 +115,10 @@ public class UserService extends BaseService {
     }
 
     public static boolean check(User user) {
-        if (user.getIdCard() == null ||
-                user.getName() == null ||
-                user.getDuty() == null ||
-                user.getPassword() == null ||
+        if (StrUtil.isEmpty(user.getIdCard()) ||
+                StrUtil.isEmpty(user.getName()) ||
+                StrUtil.isEmpty(user.getDuty()) ||
+                StrUtil.isEmpty(user.getPassword()) ||
                 user.getSuperAdmin() == null) {
             return false;
         }
