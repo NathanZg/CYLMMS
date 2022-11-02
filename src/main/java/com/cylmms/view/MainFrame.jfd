@@ -4,7 +4,7 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {comp tabbedPane::l::1030:x}"
+			"$horizontalGroup": "par l {comp tabbedPane::l:::x}"
 			"$verticalGroup": "par l {comp tabbedPane::l:::x}"
 		} ) {
 			name: "mainFrame"
@@ -13,7 +13,7 @@ new FormModel {
 				name: "tabbedPane"
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 7, false )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:1030:x}"
+					"$horizontalGroup": "par l {space :0:1041:x}"
 					"$verticalGroup": "par l {space :0:483:x}"
 				} ) {
 					name: "indexPanel"
@@ -21,10 +21,10 @@ new FormModel {
 					"title": "首页"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {comp vSpacer1::t::1030:x, seq t {space :::p, par t {comp vSpacer2::::1018:x, seq {comp hSpacer1:::p:86:p, space :::p, comp vSpacer6:::p:46:p, space :::p, par l:::p {comp idCardLabel::::80:x, comp nameLabel::::80:x, comp maxAgeLabel::::80:x, comp minAgeLabel::::80:x}, space :::p, par l {comp idCardField::l:p:175:p, par l:l::p {comp minAgeField::::92:x, comp maxAgeField::::92:x, comp nameField::::92:x}}, space :p:7:p, comp hSpacer3:::p::p, space :::p, par l {comp politicsStatusLabel:::p::p, comp politicsStatusField:::p:125:p}, space :::p, comp vSpacer3:::p::p, space :::p, par l {seq {space :0:126:x, par l {comp selectButton::t:p::p, comp updateButton::t:p::p, comp deleteButton::t:p::p}}, comp vSpacer4::::216:x, comp vSpacer5::t::216:x}, space :::p, comp hSpacer2:::p:221:p}}, space :::p}, comp scrollPane1::l::1030:x}"
+					"$horizontalGroup": "par l {comp vSpacer1::t::1041:x, seq t {space :::p, par t {comp vSpacer2::::1029:x, seq {comp hSpacer1:::p:86:p, space :::p, comp vSpacer6:::p:46:p, space :::p, par l:::p {comp idCardLabel::::80:x, comp nameLabel::::80:x, comp maxAgeLabel::::80:x, comp minAgeLabel::::80:x}, space :::p, par l {comp idCardField::l:p:175:p, par l:l::p {comp minAgeField::::92:x, comp maxAgeField::::92:x, comp nameField::::92:x}}, space :p:7:p, comp hSpacer3:::p::p, space :::p, par l {comp politicsStatusLabel:::p::p, comp politicsStatusField:::p:125:p}, space :::p, comp vSpacer3:::p::p, space :::p, par l {seq {space :0:137:x, par l {comp selectButton::t:p::p, comp updateButton::t:p::p, comp deleteButton::t:p::p}}, comp vSpacer4::::227:x, comp vSpacer5::t::227:x}, space :::p, comp hSpacer2:::p:221:p}}, space :::p}, comp scrollPane1::l::1041:x}"
 					"$verticalGroup": "par l {seq l {comp scrollPane1::::245:x, space :::p, comp vSpacer1:::p::p, space :::p, par l {par l:::p {comp vSpacer3::l:::x, seq l {par b {comp minAgeLabel::b:p:40:p, comp minAgeField::b:p::p}, par b {comp maxAgeLabel::b:p:40:p, comp maxAgeField::b:p::p}, space :::p, par b {comp nameLabel::b:p:40:p, comp nameField::b:p::p}, space :::p, par b {comp idCardLabel::b:p:40:p, comp idCardField::b:p::p}}, comp hSpacer1::l:::x, comp hSpacer2::l::194:x, comp vSpacer6::l::194:x}, comp hSpacer3::l:p:194:p, seq l {comp politicsStatusLabel:::p:40:p, space :::p, comp politicsStatusField:::p:35:p}, seq l {comp selectButton:::p:48:p, space :::p, comp vSpacer4:::p:15:p, space u:::p, comp updateButton:::p:39:p, space :::p, comp vSpacer5:::p:19:p, space :::p, comp deleteButton:::p:40:p}}, space :::p, comp vSpacer2:::p:10:p, space :::p}}"
 				} ) {
-					name: "selectAndUpdateAndDeletePanel"
+					name: "selectPanel"
 					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
 						name: "vSpacer1"
 					} )
@@ -145,7 +145,7 @@ new FormModel {
 								add( null )
 								add( null )
 								add( null )
-								add( null )
+								add( false )
 							}, new java.util.Vector {
 								add( null )
 								add( null )
@@ -166,55 +166,94 @@ new FormModel {
 					"title": "团员信息查询更新删除"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq l {space :::p, par l {seq {comp vSpacer10:::::x, space :::p}, seq {par t {comp vSpacer11:::::x, seq {comp hSpacer6:::p:320:p, par l {seq l {space :p:27:p, comp vSpacer13:::p:19:p}, seq l {space :p:84:p, comp vSpacer16:::p::p}, seq l {space :::p, comp label1:::p::p, space u:::p, comp textField1:::p:95:p}}, par l {seq {space :::x, comp vSpacer12:::p::p, par l {seq l {space :p:15:p, comp vSpacer14:::p::p}, seq l {space :::p, par l {comp button2:::p::p, comp button3:::p::p}}}, space :::p, comp hSpacer7:::p:389:p}, seq {space :p:86:p, comp vSpacer15:::p::p, space :p:411:p}}}}, space :p:37:p}}}}"
-					"$verticalGroup": "par l {seq t {space :p:305:p, comp vSpacer10:::p::p, space :::p, par l {comp vSpacer12::l:::x, seq {par l {seq {comp vSpacer13:::p:30:p, space :::p, par b {comp label1::b:p:37:p, comp textField1::b:p::p}}, seq {comp vSpacer14:::p:33:p, space :::p, comp button2:::p::p}}, space :::p, par l {seq {comp vSpacer15:::p:15:p, space :::p, comp button3:::p::p, space ::21:x}, comp vSpacer16::::73:x}}, comp hSpacer7::l:::x, comp hSpacer6::l:::x}, space :::p, comp vSpacer11:::p::p}}"
+					"$horizontalGroup": "par l {comp scrollPane2:::::x, seq {space :::p, par l {comp vSpacer7:::::x, comp vSpacer8::t:::x, seq {comp hSpacer4:::p:310:p, space :::p, comp label1:::p::p, space :p:12:p, comp textField1:::p:101:p, space :::p, comp vSpacer10:::p::p, space :::x, par t {comp button7:::p::p, comp button8:::p::p}, space :::p, par l:::p {comp hSpacer9::::398:x, comp hSpacer8::::398:x}}}, space :::p}}"
+					"$verticalGroup": "par l {seq l {comp scrollPane2::::345:x, space :::p, comp vSpacer7:::p:10:p, space :::p, par l {seq {par b {comp textField1::b:p::p, comp label1::b:p:30:p}, space :p:42:p}, seq {par l {comp vSpacer10::l::94:x, comp hSpacer4::l:::x, seq l {par l {comp button7:::p:35:p, comp hSpacer9:::p::p}, space :p:21:p, par l {comp button8:::p:35:p, comp hSpacer8:::p::p}}}, space :::p}}, comp vSpacer8:::p::p, space :::p}}"
 				} ) {
 					name: "addPanel"
-					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
-						name: "vSpacer10"
+					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+						name: "scrollPane2"
+						add( new FormComponent( "javax.swing.JTable" ) {
+							name: "addMemberTable"
+							"autoCreateRowSorter": true
+							"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+							"rowHeight": 35
+							"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector, new java.util.Vector {
+								add( "身份证" )
+								add( "姓名" )
+								add( "年龄" )
+								add( "团龄" )
+								add( "政治面貌" )
+								add( "民族" )
+								add( "团内职务" )
+								add( "所属团支部" )
+							}, new java.util.Vector {
+								add( class java.lang.String )
+								add( class java.lang.String )
+								add( class java.lang.Integer )
+								add( class java.lang.Integer )
+								add( class java.lang.String )
+								add( class java.lang.String )
+								add( class java.lang.String )
+								add( class java.lang.String )
+							}, new java.util.Vector {
+								add( false )
+								add( true )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( false )
+							}, new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							} )
+							"showHorizontalLines": true
+							"showVerticalLines": true
+						} )
 					} )
 					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
-						name: "vSpacer11"
+						name: "vSpacer7"
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
+						name: "vSpacer8"
 					} )
 					add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
-						name: "hSpacer6"
-					} )
-					add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
-						name: "hSpacer7"
-					} )
-					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
-						name: "vSpacer12"
+						name: "hSpacer4"
 					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "label1"
 						"text": "添加人数："
 						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
 					} )
-					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
-						name: "vSpacer13"
-					} )
 					add( new FormComponent( "javax.swing.JTextField" ) {
 						name: "textField1"
 						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
 					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
+						name: "vSpacer10"
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+						name: "hSpacer8"
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+						name: "hSpacer9"
+					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "button2"
-						"text": "添加行"
+						name: "button7"
+						"text": "添加空行"
 						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
 					} )
-					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
-						name: "vSpacer14"
-					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "button3"
-						"text": "添加"
+						name: "button8"
+						"text": "添加团员"
 						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
-					} )
-					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
-						name: "vSpacer15"
-					} )
-					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
-						name: "vSpacer16"
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "团员转接"
