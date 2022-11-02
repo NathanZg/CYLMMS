@@ -4,8 +4,16 @@
 
 package com.cylmms.view;
 
+import cn.hutool.core.util.StrUtil;
+import com.cylmms.pojo.Member;
+import com.cylmms.service.MemberService;
+import com.cylmms.vo.MemberVo;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.util.List;
 
 /**
  * @author ekertree
@@ -18,6 +26,57 @@ public class MainFrame {
     public static void main(String[] args) {
         MainFrame frame = new MainFrame();
         frame.openView();
+    }
+
+    public void openView() {
+        mainFrame.setVisible(true);
+        mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    }
+
+    private void select(ActionEvent e) {
+        MemberVo memberVo = new MemberVo();
+        String minAge = minAgeField.getText();
+        String maxAge = maxAgeField.getText();
+        String name = nameField.getText();
+        String idCard = idCardField.getText();
+        String politicsStatus = politicsStatusField.getText();
+        if (!StrUtil.isEmpty(minAge)) {
+            memberVo.setMinAge(Integer.parseInt(minAge));
+        }
+        if (!StrUtil.isEmpty(maxAge)) {
+            memberVo.setMaxAge(Integer.parseInt(maxAge));
+        }
+        memberVo.setName(name);
+        memberVo.setIdCard(idCard);
+        memberVo.setPoliticsStatus(politicsStatus);
+        List<Member> memberList = MemberService.getByCondition(memberVo);
+        Object[][] members = new Object[memberList.size()][8];
+        for (int i = 0; i < memberList.size(); i++) {
+            Member member = memberList.get(i);
+            members[i][0] = member.getIdCard();
+            members[i][1] = member.getName();
+            members[i][2] = member.getAge();
+            members[i][3] = member.getGroupAge();
+            members[i][4] = member.getPoliticsStatus();
+            members[i][5] = member.getNational();
+            members[i][6] = member.getDuty();
+            members[i][7] = member.getAffiliated();
+        }
+        memberTable.setModel(new DefaultTableModel(
+                members,
+                new String[]{
+                        "\u8eab\u4efd\u8bc1", "\u59d3\u540d", "\u5e74\u9f84", "\u56e2\u9f84", "\u653f\u6cbb\u9762\u8c8c", "\u6c11\u65cf", "\u56e2\u5185\u804c\u52a1", "\u6240\u5c5e\u56e2\u652f\u90e8"
+                }
+        ) {
+            Class<?>[] columnTypes = new Class<?>[]{
+                    String.class, String.class, Integer.class, Integer.class, String.class, String.class, String.class, String.class
+            };
+
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                return columnTypes[columnIndex];
+            }
+        });
     }
 
     private void initComponents() {
@@ -48,6 +107,8 @@ public class MainFrame {
         vSpacer5 = new JPanel(null);
         deleteButton = new JButton();
         vSpacer6 = new JPanel(null);
+        scrollPane1 = new JScrollPane();
+        memberTable = new JTable();
         updatePanel = new JPanel();
         addPanel = new JPanel();
         deletePanel = new JPanel();
@@ -115,6 +176,7 @@ public class MainFrame {
                     //---- selectButton ----
                     selectButton.setText("\u67e5\u8be2");
                     selectButton.setFont(selectButton.getFont().deriveFont(selectButton.getFont().getSize() + 5f));
+                    selectButton.addActionListener(e -> select(e));
 
                     //---- updateButton ----
                     updateButton.setText("\u66f4\u65b0");
@@ -123,6 +185,34 @@ public class MainFrame {
                     //---- deleteButton ----
                     deleteButton.setText("\u5220\u9664");
                     deleteButton.setFont(deleteButton.getFont().deriveFont(deleteButton.getFont().getSize() + 5f));
+
+                    //======== scrollPane1 ========
+                    {
+
+                        //---- memberTable ----
+                        memberTable.setFont(memberTable.getFont().deriveFont(memberTable.getFont().getSize() + 5f));
+                        memberTable.setModel(new DefaultTableModel(
+                                new Object[][]{
+                                },
+                                new String[]{
+                                        "\u8eab\u4efd\u8bc1", "\u59d3\u540d", "\u5e74\u9f84", "\u56e2\u9f84", "\u653f\u6cbb\u9762\u8c8c", "\u6c11\u65cf", "\u56e2\u5185\u804c\u52a1", "\u6240\u5c5e\u56e2\u652f\u90e8"
+                                }
+                        ) {
+                            Class<?>[] columnTypes = new Class<?>[]{
+                                    String.class, String.class, Integer.class, Integer.class, String.class, String.class, String.class, String.class
+                            };
+
+                            @Override
+                            public Class<?> getColumnClass(int columnIndex) {
+                                return columnTypes[columnIndex];
+                            }
+                        });
+                        memberTable.setAutoCreateRowSorter(true);
+                        memberTable.setRowHeight(35);
+                        memberTable.setShowVerticalLines(true);
+                        memberTable.setShowHorizontalLines(true);
+                        scrollPane1.setViewportView(memberTable);
+                    }
 
                     GroupLayout selectPanelLayout = new GroupLayout(selectPanel);
                     selectPanel.setLayout(selectPanelLayout);
@@ -171,11 +261,13 @@ public class MainFrame {
                                                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                             .addComponent(hSpacer2, GroupLayout.PREFERRED_SIZE, 221, GroupLayout.PREFERRED_SIZE)))
                                             .addContainerGap())
+                                    .addComponent(scrollPane1, GroupLayout.DEFAULT_SIZE, 1030, Short.MAX_VALUE)
                     );
                     selectPanelLayout.setVerticalGroup(
                             selectPanelLayout.createParallelGroup()
                                     .addGroup(selectPanelLayout.createSequentialGroup()
-                                            .addContainerGap(251, Short.MAX_VALUE)
+                                            .addComponent(scrollPane1, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                             .addComponent(vSpacer1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                             .addGroup(selectPanelLayout.createParallelGroup()
@@ -286,10 +378,6 @@ public class MainFrame {
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
-    public void openView() {
-        mainFrame.setVisible(true);
-        mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-    }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     private JFrame mainFrame;
@@ -318,6 +406,8 @@ public class MainFrame {
     private JPanel vSpacer5;
     private JButton deleteButton;
     private JPanel vSpacer6;
+    private JScrollPane scrollPane1;
+    private JTable memberTable;
     private JPanel updatePanel;
     private JPanel addPanel;
     private JPanel deletePanel;
