@@ -109,6 +109,7 @@ new FormModel {
 						name: "deleteButton"
 						"text": "删除"
 						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "delete", true ) )
 					} )
 					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
 						name: "vSpacer6"
@@ -137,7 +138,7 @@ new FormModel {
 								add( class java.lang.String )
 								add( class java.lang.String )
 							}, new java.util.Vector {
-								add( null )
+								add( false )
 								add( null )
 								add( null )
 								add( null )

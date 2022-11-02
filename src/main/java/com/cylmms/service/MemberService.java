@@ -94,6 +94,21 @@ public class MemberService extends BaseService {
         }
     }
 
+    public static void batchDeleteMember(List<String> idCardList) throws Exception {
+        try (SqlSession sqlSession = getBatchSqlSession()) {
+            MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
+            for (String idCard : idCardList) {
+                if (!StrUtil.isEmpty(idCard)) {
+                    mapper.deleteByPrimaryKey(idCard);
+                } else {
+                    sqlSession.rollback();
+                    throw new Exception("身份证不能为空！");
+                }
+            }
+            sqlSession.commit();
+        }
+    }
+
     public static boolean check(Member member) {
         if (member.getAffiliated() == null ||
                 member.getName() == null ||

@@ -79,10 +79,18 @@ public class MainFrame {
             Class<?>[] columnTypes = new Class<?>[]{
                     String.class, String.class, Integer.class, Integer.class, String.class, String.class, String.class, String.class
             };
+            boolean[] columnEditable = new boolean[]{
+                    false, true, true, true, true, true, true, true
+            };
 
             @Override
             public Class<?> getColumnClass(int columnIndex) {
                 return columnTypes[columnIndex];
+            }
+
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return columnEditable[columnIndex];
             }
         });
     }
@@ -101,29 +109,49 @@ public class MainFrame {
         TableModel model = memberTable.getModel();
         ArrayList<Member> memberList = new ArrayList<>();
         for (int rowIndex : selectedRows) {
-            for (int i = 0; i < 8; i++) {
-                Member member = new Member();
-                String idCard = (String) model.getValueAt(rowIndex, 0);
-                member.setIdCard(idCard);
-                String name = (String) model.getValueAt(rowIndex, 1);
-                member.setName(name);
-                Integer age = (Integer) model.getValueAt(rowIndex, 2);
-                member.setAge(age);
-                Integer groupAge = (Integer) model.getValueAt(rowIndex, 3);
-                member.setGroupAge(groupAge);
-                String politicsStatus = (String) model.getValueAt(rowIndex, 4);
-                member.setPoliticsStatus(politicsStatus);
-                String national = (String) model.getValueAt(rowIndex, 5);
-                member.setNational(national);
-                String duty = (String) model.getValueAt(rowIndex, 6);
-                member.setDuty(duty);
-                String affiliated = (String) model.getValueAt(rowIndex, 7);
-                member.setAffiliated(affiliated);
-                memberList.add(member);
-            }
+            memberList.add(getMemberData(model, rowIndex));
         }
         try {
             MemberService.batchUpdateMember(memberList);
+            freshDate();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    private Member getMemberData(TableModel model, int rowIndex) {
+        Member member = new Member();
+        for (int i = 0; i < 8; i++) {
+            String idCard = (String) model.getValueAt(rowIndex, 0);
+            member.setIdCard(idCard);
+            String name = (String) model.getValueAt(rowIndex, 1);
+            member.setName(name);
+            Integer age = (Integer) model.getValueAt(rowIndex, 2);
+            member.setAge(age);
+            Integer groupAge = (Integer) model.getValueAt(rowIndex, 3);
+            member.setGroupAge(groupAge);
+            String politicsStatus = (String) model.getValueAt(rowIndex, 4);
+            member.setPoliticsStatus(politicsStatus);
+            String national = (String) model.getValueAt(rowIndex, 5);
+            member.setNational(national);
+            String duty = (String) model.getValueAt(rowIndex, 6);
+            member.setDuty(duty);
+            String affiliated = (String) model.getValueAt(rowIndex, 7);
+            member.setAffiliated(affiliated);
+        }
+        return member;
+    }
+
+    private void delete(ActionEvent e) {
+        int[] selectedRows = memberTable.getSelectedRows();
+        TableModel model = memberTable.getModel();
+        ArrayList<String> idCardList = new ArrayList<>();
+        for (int rowIndex : selectedRows) {
+            String idCard = (String) model.getValueAt(rowIndex, 0);
+            idCardList.add(idCard);
+        }
+        try {
+            MemberService.batchDeleteMember(idCardList);
             freshDate();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -237,6 +265,7 @@ public class MainFrame {
                     //---- deleteButton ----
                     deleteButton.setText("\u5220\u9664");
                     deleteButton.setFont(deleteButton.getFont().deriveFont(deleteButton.getFont().getSize() + 5f));
+                    deleteButton.addActionListener(e -> delete(e));
 
                     //======== scrollPane1 ========
                     {
@@ -253,10 +282,18 @@ public class MainFrame {
                             Class<?>[] columnTypes = new Class<?>[]{
                                     String.class, String.class, Integer.class, Integer.class, String.class, String.class, String.class, String.class
                             };
+                            boolean[] columnEditable = new boolean[]{
+                                    false, true, true, true, true, true, true, true
+                            };
 
                             @Override
                             public Class<?> getColumnClass(int columnIndex) {
                                 return columnTypes[columnIndex];
+                            }
+
+                            @Override
+                            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                                return columnEditable[columnIndex];
                             }
                         });
                         memberTable.setAutoCreateRowSorter(true);
