@@ -32,7 +32,7 @@ public class MemberService extends BaseService {
             }
             String affiliated = memberVo.getAffiliated();
             if (!StrUtil.isEmpty(affiliated)) {
-                criteria.andAffiliatedLike(affiliated);
+                criteria.andAffiliatedEqualTo(affiliated);
             }
             Integer minAge = memberVo.getMinAge();
             if (minAge != null) {
@@ -58,6 +58,25 @@ public class MemberService extends BaseService {
             } else {
                 throw new Exception("属性不可以为空！");
             }
+        }
+    }
+
+    public static void batchAddMember(List<Member> memberList) throws Exception {
+        try (SqlSession sqlSession = getBatchSqlSession()) {
+            MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
+            for (Member member : memberList) {
+                if (!isExit(member)) {
+                    if (check(member)) {
+                        mapper.insert(member);
+                    } else {
+                        sqlSession.rollback();
+                        throw new Exception("属性不可以为空！");
+                    }
+                } else {
+                    throw new Exception("有团员已存在该团支部！");
+                }
+            }
+            sqlSession.commit();
         }
     }
 
@@ -121,5 +140,18 @@ public class MemberService extends BaseService {
             return false;
         }
         return true;
+    }
+
+    public static boolean isExit(Member member) throws Exception {
+        try (SqlSession sqlSession = getSqlSession()) {
+            MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
+            String idCard = member.getIdCard();
+            if (idCard != null) {
+                Member res = mapper.selectByPrimaryKey(idCard);
+                return res != null;
+            } else {
+                throw new Exception("属性不可为空！");
+            }
+        }
     }
 }

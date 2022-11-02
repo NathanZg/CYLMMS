@@ -16,6 +16,13 @@ import java.util.List;
  **/
 public class UserService extends BaseService {
 
+    public static User getUser(String idCard) {
+        try (SqlSession sqlSession = getSqlSession()) {
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            return mapper.selectByPrimaryKey(idCard);
+        }
+    }
+
     public static List<User> getByCondition(UserVo userVo) {
         try (SqlSession sqlSession = getSqlSession()) {
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);

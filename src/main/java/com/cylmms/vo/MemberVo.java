@@ -1,5 +1,6 @@
 package com.cylmms.vo;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.Getter;
 
 /**
@@ -16,11 +17,15 @@ public class MemberVo {
     private String affiliated;
 
     public void setIdCard(String idCard) {
-        this.idCard = '%' + idCard + '%';
+        if (!StrUtil.isEmpty(idCard)) {
+            this.idCard = '%' + idCard + '%';
+        }
     }
 
     public void setName(String name) {
-        this.name = '%' + name + '%';
+        if (!StrUtil.isEmpty(name)) {
+            this.name = '%' + name + '%';
+        }
     }
 
     public void setMinAge(Integer minAge) {

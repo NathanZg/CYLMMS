@@ -6,6 +6,7 @@ package com.cylmms.view;
 
 import cn.hutool.core.util.StrUtil;
 import com.cylmms.pojo.Member;
+import com.cylmms.pojo.User;
 import com.cylmms.service.MemberService;
 import com.cylmms.vo.MemberVo;
 
@@ -23,6 +24,12 @@ import java.util.List;
  */
 public class MainFrame {
     public MainFrame() {
+        initComponents();
+        customInitComponents();
+    }
+
+    public MainFrame(User user) {
+        loginUser = user;
         initComponents();
         customInitComponents();
     }
@@ -57,6 +64,7 @@ public class MainFrame {
         memberVo.setName(name);
         memberVo.setIdCard(idCard);
         memberVo.setPoliticsStatus(politicsStatus);
+        memberVo.setAffiliated(loginUser.getDuty());
         List<Member> memberList = MemberService.getByCondition(memberVo);
         Object[][] members = new Object[memberList.size()][8];
         for (int i = 0; i < memberList.size(); i++) {
@@ -160,6 +168,78 @@ public class MainFrame {
         }
     }
 
+    private void addSpace(ActionEvent e) {
+        String num = addNumField.getText();
+        if (!StrUtil.isEmpty(num)) {
+            int anInt = Integer.parseInt(num);
+            Object[][] table = new Object[anInt][8];
+            for (Object[] objects : table) {
+                objects[7] = loginUser.getDuty();
+            }
+            addMemberTable.setModel(new DefaultTableModel(
+                    table,
+                    new String[]{
+                            "\u8eab\u4efd\u8bc1", "\u59d3\u540d", "\u5e74\u9f84", "\u56e2\u9f84", "\u653f\u6cbb\u9762\u8c8c", "\u6c11\u65cf", "\u56e2\u5185\u804c\u52a1", "\u6240\u5c5e\u56e2\u652f\u90e8"
+                    }
+            ) {
+                Class<?>[] columnTypes = new Class<?>[]{
+                        String.class, String.class, Integer.class, Integer.class, String.class, String.class, String.class, String.class
+                };
+                boolean[] columnEditable = new boolean[]{
+                        true, true, true, true, true, true, true, false
+                };
+
+                @Override
+                public Class<?> getColumnClass(int columnIndex) {
+                    return columnTypes[columnIndex];
+                }
+
+                @Override
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return columnEditable[columnIndex];
+                }
+            });
+        }
+    }
+
+    private void addMember(ActionEvent e) {
+        TableModel model = addMemberTable.getModel();
+        int rowCount = addMemberTable.getRowCount();
+        ArrayList<Member> memberList = new ArrayList<>();
+        for (int i = 0; i < rowCount; i++) {
+            Member member = getMemberData(model, i);
+            memberList.add(member);
+        }
+        try {
+            MemberService.batchAddMember(memberList);
+            addMemberTable.setModel(new DefaultTableModel(
+                    new Object[][]{},
+                    new String[]{
+                            "\u8eab\u4efd\u8bc1", "\u59d3\u540d", "\u5e74\u9f84", "\u56e2\u9f84", "\u653f\u6cbb\u9762\u8c8c", "\u6c11\u65cf", "\u56e2\u5185\u804c\u52a1", "\u6240\u5c5e\u56e2\u652f\u90e8"
+                    }
+            ) {
+                Class<?>[] columnTypes = new Class<?>[]{
+                        String.class, String.class, Integer.class, Integer.class, String.class, String.class, String.class, String.class
+                };
+                boolean[] columnEditable = new boolean[]{
+                        true, true, true, true, true, true, true, false
+                };
+
+                @Override
+                public Class<?> getColumnClass(int columnIndex) {
+                    return columnTypes[columnIndex];
+                }
+
+                @Override
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return columnEditable[columnIndex];
+                }
+            });
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         mainFrame = new JFrame();
@@ -196,13 +276,13 @@ public class MainFrame {
         vSpacer7 = new JPanel(null);
         vSpacer8 = new JPanel(null);
         hSpacer4 = new JPanel(null);
-        label1 = new JLabel();
-        textField1 = new JTextField();
+        addNumLabel = new JLabel();
+        addNumField = new JTextField();
         vSpacer10 = new JPanel(null);
         hSpacer8 = new JPanel(null);
         hSpacer9 = new JPanel(null);
-        button7 = new JButton();
-        button8 = new JButton();
+        addSpaceButton = new JButton();
+        addMemberButton = new JButton();
 
         //======== mainFrame ========
         {
@@ -220,7 +300,7 @@ public class MainFrame {
                     indexPanel.setLayout(indexPanelLayout);
                     indexPanelLayout.setHorizontalGroup(
                             indexPanelLayout.createParallelGroup()
-                                    .addGap(0, 1041, Short.MAX_VALUE)
+                                    .addGap(0, 1056, Short.MAX_VALUE)
                     );
                     indexPanelLayout.setVerticalGroup(
                             indexPanelLayout.createParallelGroup()
@@ -319,11 +399,11 @@ public class MainFrame {
                     selectPanel.setLayout(selectPanelLayout);
                     selectPanelLayout.setHorizontalGroup(
                             selectPanelLayout.createParallelGroup()
-                                    .addComponent(vSpacer1, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 1041, Short.MAX_VALUE)
+                                    .addComponent(vSpacer1, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 1056, Short.MAX_VALUE)
                                     .addGroup(GroupLayout.Alignment.TRAILING, selectPanelLayout.createSequentialGroup()
                                             .addContainerGap()
                                             .addGroup(selectPanelLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(vSpacer2, GroupLayout.DEFAULT_SIZE, 1029, Short.MAX_VALUE)
+                                                    .addComponent(vSpacer2, GroupLayout.DEFAULT_SIZE, 1044, Short.MAX_VALUE)
                                                     .addGroup(selectPanelLayout.createSequentialGroup()
                                                             .addComponent(hSpacer1, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
                                                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
@@ -352,17 +432,17 @@ public class MainFrame {
                                                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                             .addGroup(selectPanelLayout.createParallelGroup()
                                                                     .addGroup(selectPanelLayout.createSequentialGroup()
-                                                                            .addGap(0, 137, Short.MAX_VALUE)
+                                                                            .addGap(0, 152, Short.MAX_VALUE)
                                                                             .addGroup(selectPanelLayout.createParallelGroup()
                                                                                     .addComponent(selectButton, GroupLayout.Alignment.TRAILING)
                                                                                     .addComponent(updateButton, GroupLayout.Alignment.TRAILING)
                                                                                     .addComponent(deleteButton, GroupLayout.Alignment.TRAILING)))
-                                                                    .addComponent(vSpacer4, GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
-                                                                    .addComponent(vSpacer5, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE))
+                                                                    .addComponent(vSpacer4, GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
+                                                                    .addComponent(vSpacer5, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE))
                                                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                             .addComponent(hSpacer2, GroupLayout.PREFERRED_SIZE, 221, GroupLayout.PREFERRED_SIZE)))
                                             .addContainerGap())
-                                    .addComponent(scrollPane1, GroupLayout.DEFAULT_SIZE, 1041, Short.MAX_VALUE)
+                                    .addComponent(scrollPane1, GroupLayout.DEFAULT_SIZE, 1056, Short.MAX_VALUE)
                     );
                     selectPanelLayout.setVerticalGroup(
                             selectPanelLayout.createParallelGroup()
@@ -435,7 +515,7 @@ public class MainFrame {
                                     String.class, String.class, Integer.class, Integer.class, String.class, String.class, String.class, String.class
                             };
                             boolean[] columnEditable = new boolean[]{
-                                    false, true, true, true, true, true, true, false
+                                    true, true, true, true, true, true, true, false
                             };
 
                             @Override
@@ -453,20 +533,22 @@ public class MainFrame {
                         scrollPane2.setViewportView(addMemberTable);
                     }
 
-                    //---- label1 ----
-                    label1.setText("\u6dfb\u52a0\u4eba\u6570\uff1a");
-                    label1.setFont(label1.getFont().deriveFont(label1.getFont().getSize() + 5f));
+                    //---- addNumLabel ----
+                    addNumLabel.setText("\u6dfb\u52a0\u4eba\u6570\uff1a");
+                    addNumLabel.setFont(addNumLabel.getFont().deriveFont(addNumLabel.getFont().getSize() + 5f));
 
-                    //---- textField1 ----
-                    textField1.setFont(textField1.getFont().deriveFont(textField1.getFont().getSize() + 5f));
+                    //---- addNumField ----
+                    addNumField.setFont(addNumField.getFont().deriveFont(addNumField.getFont().getSize() + 5f));
 
-                    //---- button7 ----
-                    button7.setText("\u6dfb\u52a0\u7a7a\u884c");
-                    button7.setFont(button7.getFont().deriveFont(button7.getFont().getSize() + 5f));
+                    //---- addSpaceButton ----
+                    addSpaceButton.setText("\u6dfb\u52a0\u7a7a\u884c");
+                    addSpaceButton.setFont(addSpaceButton.getFont().deriveFont(addSpaceButton.getFont().getSize() + 5f));
+                    addSpaceButton.addActionListener(e -> addSpace(e));
 
-                    //---- button8 ----
-                    button8.setText("\u6dfb\u52a0\u56e2\u5458");
-                    button8.setFont(button8.getFont().deriveFont(button8.getFont().getSize() + 5f));
+                    //---- addMemberButton ----
+                    addMemberButton.setText("\u6dfb\u52a0\u56e2\u5458");
+                    addMemberButton.setFont(addMemberButton.getFont().deriveFont(addMemberButton.getFont().getSize() + 5f));
+                    addMemberButton.addActionListener(e -> addMember(e));
 
                     GroupLayout addPanelLayout = new GroupLayout(addPanel);
                     addPanel.setLayout(addPanelLayout);
@@ -481,15 +563,15 @@ public class MainFrame {
                                                     .addGroup(addPanelLayout.createSequentialGroup()
                                                             .addComponent(hSpacer4, GroupLayout.PREFERRED_SIZE, 310, GroupLayout.PREFERRED_SIZE)
                                                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                            .addComponent(label1)
+                                                            .addComponent(addNumLabel)
                                                             .addGap(12, 12, 12)
-                                                            .addComponent(textField1, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(addNumField, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
                                                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                             .addComponent(vSpacer10, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                             .addGroup(addPanelLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                                                                    .addComponent(button7)
-                                                                    .addComponent(button8))
+                                                                    .addComponent(addSpaceButton)
+                                                                    .addComponent(addMemberButton))
                                                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                             .addGroup(addPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                                                                     .addComponent(hSpacer9, GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
@@ -506,8 +588,8 @@ public class MainFrame {
                                             .addGroup(addPanelLayout.createParallelGroup()
                                                     .addGroup(addPanelLayout.createSequentialGroup()
                                                             .addGroup(addPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                                    .addComponent(textField1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                                    .addComponent(label1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+                                                                    .addComponent(addNumField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                                    .addComponent(addNumLabel, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
                                                             .addGap(42, 42, 42))
                                                     .addGroup(addPanelLayout.createSequentialGroup()
                                                             .addGroup(addPanelLayout.createParallelGroup()
@@ -515,11 +597,11 @@ public class MainFrame {
                                                                     .addComponent(hSpacer4, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                                     .addGroup(addPanelLayout.createSequentialGroup()
                                                                             .addGroup(addPanelLayout.createParallelGroup()
-                                                                                    .addComponent(button7, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+                                                                                    .addComponent(addSpaceButton, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
                                                                                     .addComponent(hSpacer9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                                                             .addGap(21, 21, 21)
                                                                             .addGroup(addPanelLayout.createParallelGroup()
-                                                                                    .addComponent(button8, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+                                                                                    .addComponent(addMemberButton, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
                                                                                     .addComponent(hSpacer8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
                                                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)))
                                             .addComponent(vSpacer8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -546,6 +628,7 @@ public class MainFrame {
     }
 
 
+    private User loginUser;
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     private JFrame mainFrame;
     private JTabbedPane tabbedPane;
@@ -581,12 +664,12 @@ public class MainFrame {
     private JPanel vSpacer7;
     private JPanel vSpacer8;
     private JPanel hSpacer4;
-    private JLabel label1;
-    private JTextField textField1;
+    private JLabel addNumLabel;
+    private JTextField addNumField;
     private JPanel vSpacer10;
     private JPanel hSpacer8;
     private JPanel hSpacer9;
-    private JButton button7;
-    private JButton button8;
+    private JButton addSpaceButton;
+    private JButton addMemberButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

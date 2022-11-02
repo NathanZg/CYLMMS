@@ -39,7 +39,7 @@ public class LoginFrame {
         User user = new User(idCard, password);
         if (UserService.login(user)) {
             closeView();
-            MainFrame mainFrame = new MainFrame();
+            MainFrame mainFrame = new MainFrame(UserService.getUser(idCard));
             mainFrame.openView();
         }
     }
