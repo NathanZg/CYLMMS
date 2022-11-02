@@ -1,4 +1,4 @@
-package com.cylmms;
+package com.cylmms.utils;
 
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.setting.Setting;
