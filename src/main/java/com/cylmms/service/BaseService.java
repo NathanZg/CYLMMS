@@ -2,6 +2,7 @@ package com.cylmms.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -33,5 +34,10 @@ public class BaseService {
     public static SqlSession getSqlSession() {
         //true 自动提交事务 不需要再sqlSession.commit()
         return SQL_SESSION_FACTORY.openSession(true);
+    }
+
+    public static SqlSession getBatchSqlSession() {
+        //批量写入
+        return SQL_SESSION_FACTORY.openSession(ExecutorType.BATCH);
     }
 }

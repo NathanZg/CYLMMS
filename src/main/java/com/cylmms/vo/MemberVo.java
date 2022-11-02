@@ -21,15 +21,14 @@ public class MemberVo {
 
     public void setName(String name) {
         this.name = '%' + name + '%';
-        ;
     }
 
     public void setMinAge(Integer minAge) {
-        this.minAge = '%' + minAge + '%';
+        this.minAge = minAge;
     }
 
     public void setMaxAge(Integer maxAge) {
-        this.maxAge = '%' + maxAge + '%';
+        this.maxAge = maxAge;
     }
 
     public void setPoliticsStatus(String politicsStatus) {

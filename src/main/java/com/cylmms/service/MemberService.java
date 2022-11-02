@@ -36,7 +36,7 @@ public class MemberService extends BaseService {
             }
             Integer minAge = memberVo.getMinAge();
             if (minAge != null) {
-                criteria.andGroupAgeGreaterThanOrEqualTo(minAge);
+                criteria.andAgeGreaterThanOrEqualTo(minAge);
             }
             Integer maxAge = memberVo.getMaxAge();
             if (maxAge != null) {
@@ -69,6 +69,21 @@ public class MemberService extends BaseService {
             } else {
                 throw new Exception("属性不可以为空！");
             }
+        }
+    }
+
+    public static void batchUpdateMember(List<Member> memberList) throws Exception {
+        try (SqlSession sqlSession = getBatchSqlSession()) {
+            MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
+            for (Member member : memberList) {
+                if (check(member)) {
+                    mapper.updateByPrimaryKey(member);
+                } else {
+                    sqlSession.rollback();
+                    throw new Exception("属性不可以为空！");
+                }
+            }
+            sqlSession.commit();
         }
     }
 

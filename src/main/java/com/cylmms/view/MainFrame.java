@@ -12,8 +12,10 @@ import com.cylmms.vo.MemberVo;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,6 +38,10 @@ public class MainFrame {
     }
 
     private void select(ActionEvent e) {
+        freshDate();
+    }
+
+    private void freshDate() {
         MemberVo memberVo = new MemberVo();
         String minAge = minAgeField.getText();
         String maxAge = maxAgeField.getText();
@@ -88,6 +94,40 @@ public class MainFrame {
 
     private void customInitComponents() {
         setTableHeaderFont();
+    }
+
+    private void update(ActionEvent e) {
+        int[] selectedRows = memberTable.getSelectedRows();
+        TableModel model = memberTable.getModel();
+        ArrayList<Member> memberList = new ArrayList<>();
+        for (int rowIndex : selectedRows) {
+            for (int i = 0; i < 8; i++) {
+                Member member = new Member();
+                String idCard = (String) model.getValueAt(rowIndex, 0);
+                member.setIdCard(idCard);
+                String name = (String) model.getValueAt(rowIndex, 1);
+                member.setName(name);
+                Integer age = (Integer) model.getValueAt(rowIndex, 2);
+                member.setAge(age);
+                Integer groupAge = (Integer) model.getValueAt(rowIndex, 3);
+                member.setGroupAge(groupAge);
+                String politicsStatus = (String) model.getValueAt(rowIndex, 4);
+                member.setPoliticsStatus(politicsStatus);
+                String national = (String) model.getValueAt(rowIndex, 5);
+                member.setNational(national);
+                String duty = (String) model.getValueAt(rowIndex, 6);
+                member.setDuty(duty);
+                String affiliated = (String) model.getValueAt(rowIndex, 7);
+                member.setAffiliated(affiliated);
+                memberList.add(member);
+            }
+        }
+        try {
+            MemberService.batchUpdateMember(memberList);
+            freshDate();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     private void initComponents() {
@@ -192,6 +232,7 @@ public class MainFrame {
                     //---- updateButton ----
                     updateButton.setText("\u66f4\u65b0");
                     updateButton.setFont(updateButton.getFont().deriveFont(updateButton.getFont().getSize() + 5f));
+                    updateButton.addActionListener(e -> update(e));
 
                     //---- deleteButton ----
                     deleteButton.setText("\u5220\u9664");
