@@ -158,6 +158,18 @@ public class AdminFrame extends JFrame {
         selectButton = new JButton();
         updateButton = new JButton();
         deleteButton = new JButton();
+        addPanel = new JPanel();
+        scrollPane2 = new JScrollPane();
+        addUserTable = new JTable();
+        vSpacer7 = new JPanel(null);
+        vSpacer8 = new JPanel(null);
+        hSpacer5 = new JPanel(null);
+        hSpacer6 = new JPanel(null);
+        addNumLabel = new JLabel();
+        addNumField = new JTextField();
+        addSpaceButton = new JButton();
+        vSpacer9 = new JPanel(null);
+        addUserButton = new JButton();
 
         //======== this ========
         setTitle("\u56e2\u5458\u7ba1\u7406\u7cfb\u7edf-\u8d85\u7ea7\u7ba1\u7406");
@@ -206,7 +218,6 @@ public class AdminFrame extends JFrame {
                     userTable.setShowHorizontalLines(true);
                     userTable.setShowVerticalLines(true);
                     userTable.setRowHeight(35);
-                    userTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
                     scrollPane1.setViewportView(userTable);
                 }
 
@@ -317,6 +328,107 @@ public class AdminFrame extends JFrame {
                 );
             }
             tabbedPane.addTab("\u7ba1\u7406\u5458\u7684\u67e5\u8be2\u66f4\u65b0\u4fee\u6539", selectAndUpdateAndDeletePanel);
+
+            //======== addPanel ========
+            {
+                addPanel.setFont(addPanel.getFont().deriveFont(addPanel.getFont().getSize() + 5f));
+
+                //======== scrollPane2 ========
+                {
+
+                    //---- addUserTable ----
+                    addUserTable.setFont(addUserTable.getFont().deriveFont(addUserTable.getFont().getSize() + 5f));
+                    addUserTable.setModel(new DefaultTableModel(
+                            new Object[][]{
+                            },
+                            new String[]{
+                                    "\u8eab\u4efd\u8bc1", "\u59d3\u540d", "\u5bc6\u7801", "\u56e2\u652f\u90e8"
+                            }
+                    ) {
+                        Class<?>[] columnTypes = new Class<?>[]{
+                                String.class, String.class, String.class, String.class
+                        };
+
+                        @Override
+                        public Class<?> getColumnClass(int columnIndex) {
+                            return columnTypes[columnIndex];
+                        }
+                    });
+                    addUserTable.setAutoCreateRowSorter(true);
+                    addUserTable.setShowHorizontalLines(true);
+                    addUserTable.setShowVerticalLines(true);
+                    scrollPane2.setViewportView(addUserTable);
+                }
+
+                //---- addNumLabel ----
+                addNumLabel.setText("\u6dfb\u52a0\u4eba\u6570\uff1a");
+                addNumLabel.setFont(addNumLabel.getFont().deriveFont(addNumLabel.getFont().getSize() + 5f));
+
+                //---- addSpaceButton ----
+                addSpaceButton.setText("\u6dfb\u52a0\u7a7a\u884c");
+                addSpaceButton.setFont(addSpaceButton.getFont().deriveFont(addSpaceButton.getFont().getSize() + 5f));
+
+                //---- addUserButton ----
+                addUserButton.setText("\u6dfb\u52a0\u7ba1\u7406\u5458");
+                addUserButton.setFont(addUserButton.getFont().deriveFont(addUserButton.getFont().getSize() + 5f));
+
+                GroupLayout addPanelLayout = new GroupLayout(addPanel);
+                addPanel.setLayout(addPanelLayout);
+                addPanelLayout.setHorizontalGroup(
+                        addPanelLayout.createParallelGroup()
+                                .addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 1061, Short.MAX_VALUE)
+                                .addGroup(addPanelLayout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addGroup(addPanelLayout.createParallelGroup()
+                                                .addComponent(vSpacer7, GroupLayout.DEFAULT_SIZE, 1049, Short.MAX_VALUE)
+                                                .addComponent(vSpacer8, GroupLayout.DEFAULT_SIZE, 1049, Short.MAX_VALUE)
+                                                .addGroup(addPanelLayout.createSequentialGroup()
+                                                        .addComponent(hSpacer5, GroupLayout.PREFERRED_SIZE, 448, GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(addNumLabel)
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(addNumField, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(vSpacer9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addGroup(addPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                                                .addComponent(addSpaceButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                .addComponent(addUserButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(hSpacer6, GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)))
+                                        .addContainerGap())
+                );
+                addPanelLayout.setVerticalGroup(
+                        addPanelLayout.createParallelGroup()
+                                .addGroup(addPanelLayout.createSequentialGroup()
+                                        .addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(vSpacer7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(addPanelLayout.createParallelGroup()
+                                                .addGroup(addPanelLayout.createSequentialGroup()
+                                                        .addGap(23, 23, 23)
+                                                        .addGroup(addPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                                .addComponent(addNumField, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                                                                .addComponent(addNumLabel, GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE))
+                                                .addGroup(addPanelLayout.createSequentialGroup()
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addGroup(addPanelLayout.createParallelGroup()
+                                                                .addComponent(vSpacer9, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                                                                .addComponent(hSpacer6, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                                                                .addComponent(hSpacer5, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED))
+                                                .addGroup(addPanelLayout.createSequentialGroup()
+                                                        .addGap(27, 27, 27)
+                                                        .addComponent(addSpaceButton, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                        .addComponent(addUserButton, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)))
+                                        .addComponent(vSpacer8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addContainerGap())
+                );
+            }
+            tabbedPane.addTab("\u7ba1\u7406\u5458\u7684\u589e\u52a0", addPanel);
         }
 
         GroupLayout contentPaneLayout = new GroupLayout(contentPane);
@@ -353,5 +465,17 @@ public class AdminFrame extends JFrame {
     private JButton selectButton;
     private JButton updateButton;
     private JButton deleteButton;
+    private JPanel addPanel;
+    private JScrollPane scrollPane2;
+    private JTable addUserTable;
+    private JPanel vSpacer7;
+    private JPanel vSpacer8;
+    private JPanel hSpacer5;
+    private JPanel hSpacer6;
+    private JLabel addNumLabel;
+    private JTextField addNumField;
+    private JButton addSpaceButton;
+    private JPanel vSpacer9;
+    private JButton addUserButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }
