@@ -128,6 +128,17 @@ public class MemberService extends BaseService {
         }
     }
 
+    public static Integer getMemberNum(String gpName) {
+        try (SqlSession sqlSession = getSqlSession()) {
+            MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
+            MemberExample memberExample = new MemberExample();
+            MemberExample.Criteria criteria = memberExample.createCriteria();
+            criteria.andAffiliatedEqualTo(gpName);
+            long count = mapper.countByExample(memberExample);
+            return (int) count;
+        }
+    }
+
     public static boolean check(Member member) {
         if (member.getAffiliated() == null ||
                 StrUtil.isEmpty(member.getName()) ||

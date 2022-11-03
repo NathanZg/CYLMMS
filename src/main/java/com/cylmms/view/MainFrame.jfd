@@ -29,32 +29,26 @@ new FormModel {
 							"opaque": false
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "welcomeLabel"
-								"text": "欢迎您，"
 								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 8, false )
 							} )
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "curGpLabel"
-								"text": "当前团支部："
 								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 8, false )
 							} )
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "supGpLabel"
-								"text": "所属上级团组织："
 								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 8, false )
 							} )
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "categoryLabel"
-								"text": "组织类别："
 								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 8, false )
 							} )
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "industryLabel"
-								"text": "所属行业："
 								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 8, false )
 							} )
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "memberNumLabel"
-								"text": "团员人数："
 								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 8, false )
 							} )
 						}, new FormLayoutConstraints( null ) {

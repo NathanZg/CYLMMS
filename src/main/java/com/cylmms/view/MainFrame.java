@@ -118,17 +118,18 @@ public class MainFrame {
     }
 
     private void setIndexInfo() {
-        welcomeLabel.setText(welcomeLabel.getText() + loginUser.getName() + "!");
+        welcomeLabel.setText("欢迎您，" + loginUser.getName() + "!");
         Gp g = getGp();
-        curGpLabel.setText(curGpLabel.getText() + g.getName());
-        supGpLabel.setText(supGpLabel.getText() + g.getSuperior());
-        categoryLabel.setText(categoryLabel.getText() + g.getCategory());
-        industryLabel.setText(industryLabel.getText() + g.getIndustry());
-        memberNumLabel.setText(memberNumLabel.getText() + g.getMemNum());
+        curGpLabel.setText("当前团支部：" + g.getName());
+        supGpLabel.setText("所属上级团支部：" + g.getSuperior());
+        categoryLabel.setText("组织类别：" + g.getCategory());
+        industryLabel.setText("所属行业：" + g.getIndustry());
+        memberNumLabel.setText("团员人数：" + g.getMemNum());
     }
 
     private Gp getGp() {
-        return GpService.getGp(loginUser.getDuty());
+        gp = GpService.getGp(loginUser.getDuty());
+        return gp;
     }
 
     private void update(ActionEvent e) {
@@ -180,6 +181,10 @@ public class MainFrame {
         try {
             MemberService.batchDeleteMember(idCardList);
             freshDate();
+            Integer memberNum = MemberService.getMemberNum(loginUser.getDuty());
+            gp.setMemNum(memberNum);
+            GpService.updateGp(gp);
+            setIndexInfo();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
@@ -252,6 +257,11 @@ public class MainFrame {
                     return columnEditable[columnIndex];
                 }
             });
+            addNumField.setText("");
+            Integer memberNum = MemberService.getMemberNum(loginUser.getDuty());
+            gp.setMemNum(memberNum);
+            GpService.updateGp(gp);
+            setIndexInfo();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
@@ -332,27 +342,21 @@ public class MainFrame {
                             contentPanel.setOpaque(false);
 
                             //---- welcomeLabel ----
-                            welcomeLabel.setText("\u6b22\u8fce\u60a8\uff0c");
                             welcomeLabel.setFont(welcomeLabel.getFont().deriveFont(welcomeLabel.getFont().getSize() + 8f));
 
                             //---- curGpLabel ----
-                            curGpLabel.setText("\u5f53\u524d\u56e2\u652f\u90e8\uff1a");
                             curGpLabel.setFont(curGpLabel.getFont().deriveFont(curGpLabel.getFont().getSize() + 8f));
 
                             //---- supGpLabel ----
-                            supGpLabel.setText("\u6240\u5c5e\u4e0a\u7ea7\u56e2\u7ec4\u7ec7\uff1a");
                             supGpLabel.setFont(supGpLabel.getFont().deriveFont(supGpLabel.getFont().getSize() + 8f));
 
                             //---- categoryLabel ----
-                            categoryLabel.setText("\u7ec4\u7ec7\u7c7b\u522b\uff1a");
                             categoryLabel.setFont(categoryLabel.getFont().deriveFont(categoryLabel.getFont().getSize() + 8f));
 
                             //---- industryLabel ----
-                            industryLabel.setText("\u6240\u5c5e\u884c\u4e1a\uff1a");
                             industryLabel.setFont(industryLabel.getFont().deriveFont(industryLabel.getFont().getSize() + 8f));
 
                             //---- memberNumLabel ----
-                            memberNumLabel.setText("\u56e2\u5458\u4eba\u6570\uff1a");
                             memberNumLabel.setFont(memberNumLabel.getFont().deriveFont(memberNumLabel.getFont().getSize() + 8f));
 
                             GroupLayout contentPanelLayout = new GroupLayout(contentPanel);
@@ -730,6 +734,8 @@ public class MainFrame {
 
 
     private User loginUser;
+
+    private Gp gp;
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     private JFrame mainFrame;
     private JTabbedPane tabbedPane;
