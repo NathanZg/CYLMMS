@@ -8,8 +8,9 @@ new FormModel {
 			"$verticalGroup": "par l {comp layeredPane::l::487:x}"
 		} ) {
 			name: "loginFrame"
-			"iconImage": sfield com.jformdesigner.model.FormObject NULL_VALUE
+			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/img/logo.jpeg" )
 			"title": "团员管理系统-登陆"
+			"resizable": false
 			add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
 				name: "layeredPane"
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {

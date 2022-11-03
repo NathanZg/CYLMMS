@@ -63,8 +63,9 @@ public class LoginFrame {
 
         //======== loginFrame ========
         {
-            loginFrame.setIconImage(null);
+            loginFrame.setIconImage(new ImageIcon(getClass().getResource("/img/logo.jpeg")).getImage());
             loginFrame.setTitle("\u56e2\u5458\u7ba1\u7406\u7cfb\u7edf-\u767b\u9646");
+            loginFrame.setResizable(false);
             Container loginFrameContentPane = loginFrame.getContentPane();
 
             //======== layeredPane ========

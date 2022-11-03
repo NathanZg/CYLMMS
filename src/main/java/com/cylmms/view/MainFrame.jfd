@@ -9,14 +9,40 @@ new FormModel {
 		} ) {
 			name: "mainFrame"
 			"title": "团员管理系统"
+			"resizable": false
+			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/img/logo.jpeg" )
 			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
 				name: "tabbedPane"
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 7, false )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:1056:x}"
-					"$verticalGroup": "par l {space :0:483:x}"
+					"$horizontalGroup": "par l {comp layeredPane1::l::1056:x}"
+					"$verticalGroup": "par l {comp layeredPane1::l::483:x}"
 				} ) {
 					name: "indexPanel"
+					add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
+						name: "layeredPane1"
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+							"$horizontalGroup": "par l {space :0:100:x}"
+							"$verticalGroup": "par l {space :0:100:x}"
+						} ) {
+							name: "contentPanel"
+							"opaque": false
+						}, new FormLayoutConstraints( null ) {
+							"x": 0
+							"layer": 100
+							"width": 1085
+							"height": 485
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "background"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/indexBg.png" )
+						}, new FormLayoutConstraints( null ) {
+							"x": 0
+							"y": 0
+							"width": 1085
+							"height": 485
+						} )
+					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "首页"
 				} )

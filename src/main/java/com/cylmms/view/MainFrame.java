@@ -245,6 +245,9 @@ public class MainFrame {
         mainFrame = new JFrame();
         tabbedPane = new JTabbedPane();
         indexPanel = new JPanel();
+        layeredPane1 = new JLayeredPane();
+        contentPanel = new JPanel();
+        background = new JLabel();
         selectPanel = new JPanel();
         vSpacer1 = new JPanel(null);
         vSpacer2 = new JPanel(null);
@@ -287,6 +290,8 @@ public class MainFrame {
         //======== mainFrame ========
         {
             mainFrame.setTitle("\u56e2\u5458\u7ba1\u7406\u7cfb\u7edf");
+            mainFrame.setResizable(false);
+            mainFrame.setIconImage(new ImageIcon(getClass().getResource("/img/logo.jpeg")).getImage());
             Container mainFrameContentPane = mainFrame.getContentPane();
 
             //======== tabbedPane ========
@@ -296,15 +301,42 @@ public class MainFrame {
                 //======== indexPanel ========
                 {
 
+                    //======== layeredPane1 ========
+                    {
+
+                        //======== contentPanel ========
+                        {
+                            contentPanel.setOpaque(false);
+
+                            GroupLayout contentPanelLayout = new GroupLayout(contentPanel);
+                            contentPanel.setLayout(contentPanelLayout);
+                            contentPanelLayout.setHorizontalGroup(
+                                    contentPanelLayout.createParallelGroup()
+                                            .addGap(0, 100, Short.MAX_VALUE)
+                            );
+                            contentPanelLayout.setVerticalGroup(
+                                    contentPanelLayout.createParallelGroup()
+                                            .addGap(0, 100, Short.MAX_VALUE)
+                            );
+                        }
+                        layeredPane1.add(contentPanel, JLayeredPane.PALETTE_LAYER);
+                        contentPanel.setBounds(0, 0, 1085, 485);
+
+                        //---- background ----
+                        background.setIcon(new ImageIcon(getClass().getResource("/img/indexBg.png")));
+                        layeredPane1.add(background, JLayeredPane.DEFAULT_LAYER);
+                        background.setBounds(0, 0, 1085, 485);
+                    }
+
                     GroupLayout indexPanelLayout = new GroupLayout(indexPanel);
                     indexPanel.setLayout(indexPanelLayout);
                     indexPanelLayout.setHorizontalGroup(
                             indexPanelLayout.createParallelGroup()
-                                    .addGap(0, 1056, Short.MAX_VALUE)
+                                    .addComponent(layeredPane1, GroupLayout.DEFAULT_SIZE, 1056, Short.MAX_VALUE)
                     );
                     indexPanelLayout.setVerticalGroup(
                             indexPanelLayout.createParallelGroup()
-                                    .addGap(0, 483, Short.MAX_VALUE)
+                                    .addComponent(layeredPane1, GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
                     );
                 }
                 tabbedPane.addTab("\u9996\u9875", indexPanel);
@@ -633,6 +665,9 @@ public class MainFrame {
     private JFrame mainFrame;
     private JTabbedPane tabbedPane;
     private JPanel indexPanel;
+    private JLayeredPane layeredPane1;
+    private JPanel contentPanel;
+    private JLabel background;
     private JPanel selectPanel;
     private JPanel vSpacer1;
     private JPanel vSpacer2;
