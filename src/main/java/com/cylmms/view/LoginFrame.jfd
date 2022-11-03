@@ -11,6 +11,7 @@ new FormModel {
 			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/img/logo.jpeg" )
 			"title": "团员管理系统-登陆"
 			"resizable": false
+			"defaultCloseOperation": 2
 			add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
 				name: "layeredPane"
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
@@ -26,6 +27,7 @@ new FormModel {
 					} )
 					add( new FormComponent( "javax.swing.JTextField" ) {
 						name: "accountField"
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
 					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "passwordLabel"
@@ -34,6 +36,7 @@ new FormModel {
 					} )
 					add( new FormComponent( "javax.swing.JPasswordField" ) {
 						name: "passwordField"
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "loginButton"

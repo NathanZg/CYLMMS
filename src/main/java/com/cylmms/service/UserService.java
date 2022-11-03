@@ -48,7 +48,7 @@ public class UserService extends BaseService {
                 User res = mapper.selectByPrimaryKey(idCard);
                 return res != null;
             } else {
-                throw new Exception("属性不可为空！");
+                throw new Exception("账号不可为空！");
             }
         }
     }
@@ -64,7 +64,7 @@ public class UserService extends BaseService {
                     throw new Exception("属性不可为空！");
                 }
             } else {
-                throw new Exception("用户已存在！");
+                throw new Exception("身份证为：" + user.getIdCard() + "的用户已存在！");
             }
         }
     }
@@ -87,18 +87,21 @@ public class UserService extends BaseService {
         }
     }
 
-    public static boolean login(User user) {
+    public static boolean login(User user) throws Exception {
         try {
             if (isExit(user)) {
                 String password = getPassword(user);
                 if (EncryptUtils.encode(user.getPassword()).equals(password)) {
                     return true;
+                } else {
+                    throw new Exception("账号或者密码错误！");
                 }
+            } else {
+                throw new Exception("账号或者密码错误！");
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new Exception(e);
         }
-        return false;
     }
 
     public static String getPassword(User user) throws Exception {

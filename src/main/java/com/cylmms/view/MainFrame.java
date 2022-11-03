@@ -4,6 +4,7 @@
 
 package com.cylmms.view;
 
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import com.cylmms.pojo.Gp;
 import com.cylmms.pojo.Member;
@@ -43,7 +44,6 @@ public class MainFrame {
 
     public void openView() {
         mainFrame.setVisible(true);
-        mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     private void select(ActionEvent e) {
@@ -58,10 +58,20 @@ public class MainFrame {
         String idCard = idCardField.getText();
         String politicsStatus = politicsStatusField.getText();
         if (!StrUtil.isEmpty(minAge)) {
-            memberVo.setMinAge(Integer.parseInt(minAge));
+            if (NumberUtil.isNumber(minAge)) {
+                memberVo.setMinAge(Integer.parseInt(minAge));
+            } else {
+                new ErrorDialog(new JFrame()).error("最小年龄输入错误！");
+                return;
+            }
         }
         if (!StrUtil.isEmpty(maxAge)) {
-            memberVo.setMaxAge(Integer.parseInt(maxAge));
+            if (NumberUtil.isNumber(maxAge)) {
+                memberVo.setMaxAge(Integer.parseInt(maxAge));
+            } else {
+                new ErrorDialog(new JFrame()).error("最大年龄输入错误！");
+                return;
+            }
         }
         memberVo.setName(name);
         memberVo.setIdCard(idCard);
@@ -143,7 +153,7 @@ public class MainFrame {
             MemberService.batchUpdateMember(memberList);
             freshDate();
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            new ErrorDialog(new JFrame()).error(ex.getMessage());
         }
     }
 
@@ -186,14 +196,20 @@ public class MainFrame {
             GpService.updateGp(gp);
             setIndexInfo();
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            new ErrorDialog(new JFrame()).error(ex.getMessage());
         }
     }
 
     private void addSpace(ActionEvent e) {
         String num = addNumField.getText();
         if (!StrUtil.isEmpty(num)) {
-            int anInt = Integer.parseInt(num);
+            Integer anInt;
+            if (NumberUtil.isNumber(num)) {
+                anInt = Integer.valueOf(num);
+            } else {
+                new ErrorDialog(new JFrame()).error("添加空行数输入错误！");
+                return;
+            }
             Object[][] table = new Object[anInt][8];
             for (Object[] objects : table) {
                 objects[7] = loginUser.getDuty();
@@ -263,7 +279,7 @@ public class MainFrame {
             GpService.updateGp(gp);
             setIndexInfo();
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            new ErrorDialog(new JFrame()).error(ex.getMessage());
         }
     }
 
@@ -325,6 +341,7 @@ public class MainFrame {
             mainFrame.setTitle("\u56e2\u5458\u7ba1\u7406\u7cfb\u7edf");
             mainFrame.setResizable(false);
             mainFrame.setIconImage(new ImageIcon(getClass().getResource("/img/logo.jpeg")).getImage());
+            mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             Container mainFrameContentPane = mainFrame.getContentPane();
 
             //======== tabbedPane ========

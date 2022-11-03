@@ -26,7 +26,6 @@ public class LoginFrame {
 
     public void openView() {
         loginFrame.setVisible(true);
-        loginFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     public void closeView() {
@@ -37,10 +36,14 @@ public class LoginFrame {
         String idCard = accountField.getText();
         String password = new String(passwordField.getPassword());
         User user = new User(idCard, password);
-        if (UserService.login(user)) {
-            closeView();
-            MainFrame mainFrame = new MainFrame(UserService.getUser(idCard));
-            mainFrame.openView();
+        try {
+            if (UserService.login(user)) {
+                closeView();
+                MainFrame mainFrame = new MainFrame(UserService.getUser(idCard));
+                mainFrame.openView();
+            }
+        } catch (Exception ex) {
+            new ErrorDialog(new JFrame()).error(ex.getMessage());
         }
     }
 
@@ -66,6 +69,7 @@ public class LoginFrame {
             loginFrame.setIconImage(new ImageIcon(getClass().getResource("/img/logo.jpeg")).getImage());
             loginFrame.setTitle("\u56e2\u5458\u7ba1\u7406\u7cfb\u7edf-\u767b\u9646");
             loginFrame.setResizable(false);
+            loginFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             Container loginFrameContentPane = loginFrame.getContentPane();
 
             //======== layeredPane ========
@@ -79,9 +83,15 @@ public class LoginFrame {
                     acountLabel.setText("\u8d26\u53f7\uff1a");
                     acountLabel.setFont(acountLabel.getFont().deriveFont(acountLabel.getFont().getSize() + 15f));
 
+                    //---- accountField ----
+                    accountField.setFont(accountField.getFont().deriveFont(accountField.getFont().getSize() + 5f));
+
                     //---- passwordLabel ----
                     passwordLabel.setText("\u5bc6\u7801\uff1a");
                     passwordLabel.setFont(passwordLabel.getFont().deriveFont(passwordLabel.getFont().getSize() + 15f));
+
+                    //---- passwordField ----
+                    passwordField.setFont(passwordField.getFont().deriveFont(passwordField.getFont().getSize() + 5f));
 
                     //---- loginButton ----
                     loginButton.setText("\u767b\u9646");

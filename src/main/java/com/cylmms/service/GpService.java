@@ -117,7 +117,7 @@ public class GpService extends BaseService {
                 Gp res = mapper.selectByPrimaryKey(id);
                 return res != null;
             } else {
-                throw new Exception("属性不可为空！");
+                throw new Exception("id不可为空！");
             }
         }
     }
