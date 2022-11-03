@@ -614,7 +614,7 @@ public class MainFrame {
                                             .addContainerGap())
                     );
                 }
-                tabbedPane.addTab("\u56e2\u5458\u4fe1\u606f\u67e5\u8be2\u66f4\u65b0\u5220\u9664", selectPanel);
+                tabbedPane.addTab("\u56e2\u5458\u4fe1\u606f\u7684\u67e5\u8be2\u66f4\u65b0\u5220\u9664", selectPanel);
 
                 //======== addPanel ========
                 {

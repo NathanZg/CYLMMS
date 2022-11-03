@@ -1,0 +1,116 @@
+JFDML JFormDesigner: "8.0.0.0.194" Java: "11.0.15" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {comp tabbedPane::l::1042:x}"
+			"$verticalGroup": "par l {comp tabbedPane::l:::x}"
+		} ) {
+			name: "this"
+			"title": "团员管理系统-超级管理"
+			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/img/logo.jpeg" )
+			"defaultCloseOperation": 2
+			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
+				name: "tabbedPane"
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 7, false )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {comp scrollPane1::::1167:x, seq {par l {seq {space :::p, comp vSpacer2::::1155:x}, comp vSpacer1::l::1161:x, seq l {comp hSpacer1:::p:340:p, space :::p, par l {par l {comp dutyLabel:::p::p, comp idCardLable::t:p:75:p}, comp nameLabel::l:p:56:p}, space :::p, par l:::p {comp idCardField::::209:x, comp nameField::l::209:x, comp dutyField::l::209:x}, space :::p, comp vSpacer3:::p::p, space :::x, par l:::p {comp selectButton:::::x, comp updateButton:::::x, comp deleteButton::t:::x}, space :::p, comp hSpacer2:::p:407:p}}, space :::p}}"
+					"$verticalGroup": "par l {seq l {comp scrollPane1::::294:x, space :::p, comp vSpacer1:::p::p, space :::p, par l {seq {par l {seq {par b {comp idCardField::b:p::p, comp idCardLable::b:p:40:p}, space u:::p, par b {comp nameField::b:p::p, comp nameLabel::b:p:40:p}, space :::p, par b {comp dutyLabel::b:p:40:p, comp dutyField::b:p::p}}, comp vSpacer3::l:p:151:p, seq l {comp selectButton:::p:40:p, space u:::p, comp updateButton:::p:40:p, space :::p, comp deleteButton:::p:40:p}}, space :0:0:x}, comp hSpacer2::l:::x, comp hSpacer1::l:::x}, space :::p, comp vSpacer2:::p::p}}"
+				} ) {
+					name: "selectAndUpdateAndDeletePanel"
+					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+						name: "scrollPane1"
+						add( new FormComponent( "javax.swing.JTable" ) {
+							name: "userTable"
+							"autoCreateRowSorter": true
+							"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+							"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector, new java.util.Vector {
+								add( "身份证" )
+								add( "姓名" )
+								add( "管理团支部" )
+							}, new java.util.Vector {
+								add( class java.lang.String )
+								add( class java.lang.String )
+								add( class java.lang.String )
+							}, new java.util.Vector {
+								add( false )
+								add( null )
+								add( null )
+							}, new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+							} )
+							"showHorizontalLines": true
+							"showVerticalLines": true
+						} )
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
+						name: "vSpacer1"
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
+						name: "vSpacer2"
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+						name: "hSpacer1"
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+						name: "hSpacer2"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "idCardLable"
+						"text": "身份证："
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "idCardField"
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
+						name: "vSpacer3"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "nameLabel"
+						"text": "姓名："
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "nameField"
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "dutyLabel"
+						"text": "团支部："
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "dutyField"
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "selectButton"
+						"text": "查询"
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "updateButton"
+						"text": "更新"
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "deleteButton"
+						"text": "删除"
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": "管理员的查询更新修改"
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 15, 0 )
+			"size": new java.awt.Dimension( 835, 450 )
+		} )
+	}
+}

@@ -214,7 +214,7 @@ new FormModel {
 						} )
 					} )
 				}, new FormLayoutConstraints( null ) {
-					"title": "团员信息查询更新删除"
+					"title": "团员信息的查询更新删除"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 					"$horizontalGroup": "par l {comp scrollPane2:::::x, seq {space :::p, par l {comp vSpacer7:::::x, comp vSpacer8::t:::x, seq {comp hSpacer4:::p:310:p, space :::p, comp addNumLabel:::p::p, space :p:12:p, comp addNumField:::p:101:p, space :::p, comp vSpacer10:::p::p, space :::x, par t {comp addSpaceButton:::p::p, comp addMemberButton:::p::p}, space :::p, par l:::p {comp hSpacer9::::398:x, comp hSpacer8::::398:x}}}, space :::p}}"
