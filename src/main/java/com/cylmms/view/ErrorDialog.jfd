@@ -1,0 +1,40 @@
+JFDML JFormDesigner: "8.0.0.0.194" Java: "11.0.15" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+			name: "this"
+			"resizable": false
+			"title": "错误"
+			"defaultCloseOperation": 2
+			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowClosing", "thisWindowClosing", true ) )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+				name: "dialogPane"
+				"border": new javax.swing.border.EmptyBorder( 12, 12, 12, 12 )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {comp scrollPane1::l::349:x}"
+					"$verticalGroup": "par l {comp scrollPane1::l::194:x}"
+				} ) {
+					name: "contentPanel"
+					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+						name: "scrollPane1"
+						add( new FormComponent( "javax.swing.JTextArea" ) {
+							name: "errorMsg"
+							"editable": false
+							"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+							"foreground": sfield java.awt.Color red
+						} )
+					} )
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "Center"
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "Center"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 80, 90 )
+			"size": new java.awt.Dimension( 300, 205 )
+		} )
+	}
+}
