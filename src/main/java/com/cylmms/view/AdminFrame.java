@@ -364,6 +364,18 @@ public class AdminFrame extends JFrame {
         updateGpButton = new JButton();
         deleteGpButton = new JButton();
         vSpacer6 = new JPanel(null);
+        gpAddPanel = new JPanel();
+        scrollPane4 = new JScrollPane();
+        addGpTable = new JTable();
+        vSpacer7 = new JPanel(null);
+        vSpacer8 = new JPanel(null);
+        hSpacer5 = new JPanel(null);
+        label1 = new JLabel();
+        textField1 = new JTextField();
+        vSpacer12 = new JPanel(null);
+        hSpacer8 = new JPanel(null);
+        button2 = new JButton();
+        button3 = new JButton();
 
         //======== this ========
         setTitle("\u56e2\u5458\u7ba1\u7406\u7cfb\u7edf-\u8d85\u7ea7\u7ba1\u7406");
@@ -783,7 +795,104 @@ public class AdminFrame extends JFrame {
                                         .addContainerGap())
                 );
             }
-            tabbedPane.addTab("\u56e2\u7ec4\u7ec7\u7684\u67e5\u8be2\u66f4\u65b0\u5220\u9664", GpSelectAndUpdateAndDeletePanel);
+            tabbedPane.addTab("\u56e2\u652f\u90e8\u7684\u67e5\u8be2\u66f4\u65b0\u5220\u9664", GpSelectAndUpdateAndDeletePanel);
+
+            //======== gpAddPanel ========
+            {
+                gpAddPanel.setFont(gpAddPanel.getFont().deriveFont(gpAddPanel.getFont().getSize() + 5f));
+
+                //======== scrollPane4 ========
+                {
+
+                    //---- addGpTable ----
+                    addGpTable.setFont(addGpTable.getFont().deriveFont(addGpTable.getFont().getSize() + 5f));
+                    addGpTable.setModel(new DefaultTableModel(
+                            new Object[][]{
+                            },
+                            new String[]{
+                                    "\u540d\u79f0", "\u4e0a\u7ea7\u7ec4\u7ec7", "\u7ec4\u7ec7\u7c7b\u522b", "\u6240\u5c5e\u884c\u4e1a"
+                            }
+                    ) {
+                        Class<?>[] columnTypes = new Class<?>[]{
+                                String.class, String.class, String.class, String.class
+                        };
+
+                        @Override
+                        public Class<?> getColumnClass(int columnIndex) {
+                            return columnTypes[columnIndex];
+                        }
+                    });
+                    scrollPane4.setViewportView(addGpTable);
+                }
+
+                //---- label1 ----
+                label1.setText("\u6dfb\u52a0\u4e2a\u6570\uff1a");
+                label1.setFont(label1.getFont().deriveFont(label1.getFont().getSize() + 5f));
+
+                //---- textField1 ----
+                textField1.setFont(textField1.getFont().deriveFont(textField1.getFont().getSize() + 5f));
+
+                //---- button2 ----
+                button2.setText("\u6dfb\u52a0\u7a7a\u884c");
+                button2.setFont(button2.getFont().deriveFont(button2.getFont().getSize() + 5f));
+
+                //---- button3 ----
+                button3.setText("\u6dfb\u52a0\u56e2\u652f\u90e8");
+                button3.setFont(button3.getFont().deriveFont(button3.getFont().getSize() + 5f));
+
+                GroupLayout gpAddPanelLayout = new GroupLayout(gpAddPanel);
+                gpAddPanel.setLayout(gpAddPanelLayout);
+                gpAddPanelLayout.setHorizontalGroup(
+                        gpAddPanelLayout.createParallelGroup()
+                                .addComponent(scrollPane4)
+                                .addGroup(gpAddPanelLayout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addGroup(gpAddPanelLayout.createParallelGroup()
+                                                .addComponent(vSpacer7, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(vSpacer8, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addGroup(gpAddPanelLayout.createSequentialGroup()
+                                                        .addComponent(hSpacer5, GroupLayout.PREFERRED_SIZE, 362, GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                        .addComponent(label1)
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                        .addComponent(textField1, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(vSpacer12, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                                                        .addGroup(gpAddPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                                                .addComponent(button3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                .addComponent(button2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(hSpacer8, GroupLayout.PREFERRED_SIZE, 308, GroupLayout.PREFERRED_SIZE)))
+                                        .addContainerGap())
+                );
+                gpAddPanelLayout.setVerticalGroup(
+                        gpAddPanelLayout.createParallelGroup()
+                                .addGroup(gpAddPanelLayout.createSequentialGroup()
+                                        .addComponent(scrollPane4, GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(vSpacer7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(gpAddPanelLayout.createParallelGroup()
+                                                .addGroup(gpAddPanelLayout.createSequentialGroup()
+                                                        .addGroup(gpAddPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                                .addComponent(label1, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                                                                .addComponent(textField1))
+                                                        .addGap(0, 59, Short.MAX_VALUE))
+                                                .addComponent(vSpacer12, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+                                                .addGroup(gpAddPanelLayout.createSequentialGroup()
+                                                        .addComponent(button2)
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                        .addComponent(button3)
+                                                        .addGap(0, 25, Short.MAX_VALUE))
+                                                .addComponent(hSpacer8, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+                                                .addComponent(hSpacer5, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE))
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(vSpacer8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addContainerGap())
+                );
+            }
+            tabbedPane.addTab("\u56e2\u652f\u90e8\u7684\u6dfb\u52a0", gpAddPanel);
         }
 
         GroupLayout contentPaneLayout = new GroupLayout(contentPane);
@@ -851,5 +960,17 @@ public class AdminFrame extends JFrame {
     private JButton updateGpButton;
     private JButton deleteGpButton;
     private JPanel vSpacer6;
+    private JPanel gpAddPanel;
+    private JScrollPane scrollPane4;
+    private JTable addGpTable;
+    private JPanel vSpacer7;
+    private JPanel vSpacer8;
+    private JPanel hSpacer5;
+    private JLabel label1;
+    private JTextField textField1;
+    private JPanel vSpacer12;
+    private JPanel hSpacer8;
+    private JButton button2;
+    private JButton button3;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

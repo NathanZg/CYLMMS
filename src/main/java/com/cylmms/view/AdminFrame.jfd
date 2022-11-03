@@ -299,7 +299,78 @@ new FormModel {
 						name: "vSpacer6"
 					} )
 				}, new FormLayoutConstraints( null ) {
-					"title": "团组织的查询更新删除"
+					"title": "团支部的查询更新删除"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {comp scrollPane4::l:::x, seq {space :::p, par l {comp vSpacer7:::::x, comp vSpacer8:::::x, seq l {comp hSpacer5:::p:362:p, space u:::p, comp label1:::p::p, space u:::p, comp textField1:::p:102:p, space :::p, comp vSpacer12:::p::p, space ::25:x, par l:::p {comp button3:::::x, comp button2:::::x}, space :::p, comp hSpacer8:::p:308:p}}, space :::p}}"
+					"$verticalGroup": "par l {seq l {comp scrollPane4::::340:x, space :::p, comp vSpacer7:::p::p, space :::p, par l {seq {par b {comp label1::b:p:40:p, comp textField1::b:::x}, space :0:59:x}, comp vSpacer12::l::99:x, seq {comp button2:::p::p, space u:::p, comp button3:::p::p, space :0:25:x}, comp hSpacer8::l::99:x, comp hSpacer5::l::99:x}, space :::p, comp vSpacer8:::p::p, space :::p}}"
+				} ) {
+					name: "gpAddPanel"
+					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+						name: "scrollPane4"
+						add( new FormComponent( "javax.swing.JTable" ) {
+							name: "addGpTable"
+							"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+							"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector, new java.util.Vector {
+								add( "名称" )
+								add( "上级组织" )
+								add( "组织类别" )
+								add( "所属行业" )
+							}, new java.util.Vector {
+								add( class java.lang.String )
+								add( class java.lang.String )
+								add( class java.lang.String )
+								add( class java.lang.String )
+							}, new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							}, new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							} )
+						} )
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
+						name: "vSpacer7"
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
+						name: "vSpacer8"
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+						name: "hSpacer5"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label1"
+						"text": "添加个数："
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "textField1"
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
+						name: "vSpacer12"
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+						name: "hSpacer8"
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "button2"
+						"text": "添加空行"
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "button3"
+						"text": "添加团支部"
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": "团支部的添加"
 				} )
 			} )
 		}, new FormLayoutConstraints( null ) {
