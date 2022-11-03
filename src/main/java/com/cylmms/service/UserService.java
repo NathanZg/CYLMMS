@@ -23,6 +23,26 @@ public class UserService extends BaseService {
         }
     }
 
+    public static void batchAddUser(List<User> userList) throws Exception {
+        try (SqlSession sqlSession = getBatchSqlSession()) {
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            for (User user : userList) {
+                if (!isExit(user)) {
+                    if (check(user)) {
+                        user.setPassword(EncryptUtils.encode(user.getPassword()));
+                        mapper.insert(user);
+                    } else {
+                        sqlSession.rollback();
+                        throw new Exception("属性不可以为空！");
+                    }
+                } else {
+                    throw new Exception("身份证为【" + user.getIdCard() + "】的管理员已存在！");
+                }
+            }
+            sqlSession.commit();
+        }
+    }
+
     public static List<User> getByCondition(UserVo userVo) {
         try (SqlSession sqlSession = getSqlSession()) {
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
@@ -69,7 +89,7 @@ public class UserService extends BaseService {
                     throw new Exception("属性不可为空！");
                 }
             } else {
-                throw new Exception("身份证为：" + user.getIdCard() + "的用户已存在！");
+                throw new Exception("身份证为【" + user.getIdCard() + "】的用户已存在！");
             }
         }
     }

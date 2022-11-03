@@ -73,7 +73,7 @@ public class MemberService extends BaseService {
                         throw new Exception("属性不可以为空！");
                     }
                 } else {
-                    throw new Exception("身份证为：" + member.getIdCard() + "的团员已存在该团支部！");
+                    throw new Exception("身份证为【" + member.getIdCard() + "】的团员已存在该团支部！");
                 }
             }
             sqlSession.commit();

@@ -4,7 +4,7 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {comp tabbedPane::l:::x}"
+			"$horizontalGroup": "par l {comp tabbedPane::l::1061:x}"
 			"$verticalGroup": "par l {comp tabbedPane::l:::x}"
 		} ) {
 			name: "this"
@@ -116,8 +116,8 @@ new FormModel {
 					"title": "管理员的查询更新修改"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {comp scrollPane2::l::1061:x, seq {space :::p, par l {comp vSpacer7::::1049:x, comp vSpacer8::::1049:x, seq l {comp hSpacer5:::p:448:p, space :::p, comp addNumLabel:::p::p, space :::p, comp addNumField:::p:139:p, space :::p, comp vSpacer9:::p::p, space :::p, par l:::p {comp addSpaceButton:::::x, comp addUserButton:::::x}, space :::p, comp hSpacer6::::216:x}}, space :::p}}"
-					"$verticalGroup": "par l {seq l {comp scrollPane2::::297:x, space :::p, comp vSpacer7:::p::p, par l {seq l {space :p:23:p, par b {comp addNumField::b:p:40:p, comp addNumLabel::b::43:x}, space ::87:x}, seq l {space :::p, par l {comp vSpacer9::t::142:x, comp hSpacer6::l::142:x, comp hSpacer5::l::142:x}, space :::p}, seq l {space :p:27:p, comp addSpaceButton:::p:40:p, space u:::p, comp addUserButton:::p:40:p, space ::35:x}}, comp vSpacer8:::p::p, space :::p}}"
+					"$horizontalGroup": "par l {comp scrollPane2::l:::x, seq {space :::p, par l {comp vSpacer9:::::x, comp vSpacer10:::::x, seq l {comp hSpacer6:::p:322:p, space :::p, comp addNumLabel:::p::p, space :::p, comp addNumField:::p:96:p, space :::x, comp vSpacer11:::p::p, space s:::p, par l:::p {comp addSpaceButton:::::x, comp addUserButton:::::x}, space :::p, comp hSpacer7:::p:374:p}}, space :::p}}"
+					"$verticalGroup": "par l {seq l {comp scrollPane2::::340:x, space :::p, comp vSpacer9:::p::p, space :::p, par l {comp hSpacer7::l:::x, seq {par l {par b {comp addNumField::b:p::p, comp addNumLabel::b:p:50:p}, seq l {comp addSpaceButton:::p:36:p, space u:::p, comp addUserButton:::p:36:p}, comp hSpacer6::l:p:105:p}, space :0:0:x}, comp vSpacer11::l:::x}, space :::p, comp vSpacer10:::p::p}}"
 				} ) {
 					name: "addPanel"
 					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
@@ -125,7 +125,6 @@ new FormModel {
 						name: "scrollPane2"
 						add( new FormComponent( "javax.swing.JTable" ) {
 							name: "addUserTable"
-							"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
 							"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector, new java.util.Vector {
 								add( "身份证" )
 								add( "姓名" )
@@ -148,21 +147,21 @@ new FormModel {
 								add( null )
 							} )
 							"autoCreateRowSorter": true
-							"showHorizontalLines": true
-							"showVerticalLines": true
+							"rowHeight": 35
+							"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
 						} )
 					} )
 					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
-						name: "vSpacer7"
+						name: "vSpacer9"
 					} )
 					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
-						name: "vSpacer8"
-					} )
-					add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
-						name: "hSpacer5"
+						name: "vSpacer10"
 					} )
 					add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
 						name: "hSpacer6"
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+						name: "hSpacer7"
 					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "addNumLabel"
@@ -171,22 +170,25 @@ new FormModel {
 					} )
 					add( new FormComponent( "javax.swing.JTextField" ) {
 						name: "addNumField"
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
+						name: "vSpacer11"
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "addSpaceButton"
 						"text": "添加空行"
 						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
-					} )
-					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
-						name: "vSpacer9"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "addSpace", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "addUserButton"
 						"text": "添加管理员"
 						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "addUser", true ) )
 					} )
 				}, new FormLayoutConstraints( null ) {
-					"title": "管理员的增加"
+					"title": "管理员的添加"
 				} )
 			} )
 		}, new FormLayoutConstraints( null ) {

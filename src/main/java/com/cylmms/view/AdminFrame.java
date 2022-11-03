@@ -4,6 +4,8 @@
 
 package com.cylmms.view;
 
+import cn.hutool.core.util.NumberUtil;
+import cn.hutool.core.util.StrUtil;
 import com.cylmms.pojo.User;
 import com.cylmms.service.UserService;
 import com.cylmms.utils.EncryptUtils;
@@ -37,8 +39,10 @@ public class AdminFrame extends JFrame {
     }
 
     private void setTableHeaderFont() {
-        JTableHeader tableHeader = userTable.getTableHeader();
-        tableHeader.setFont(tableHeader.getFont().deriveFont(tableHeader.getFont().getSize() + 5f));
+        JTableHeader userTableHeader = userTable.getTableHeader();
+        JTableHeader addUserTableHeader = addUserTable.getTableHeader();
+        userTableHeader.setFont(userTableHeader.getFont().deriveFont(userTableHeader.getFont().getSize() + 5f));
+        addUserTableHeader.setFont(addUserTableHeader.getFont().deriveFont(addUserTableHeader.getFont().getSize() + 5f));
     }
 
     private void freshDate() {
@@ -138,6 +142,67 @@ public class AdminFrame extends JFrame {
         }
     }
 
+    private void addSpace(ActionEvent e) {
+        String num = addNumField.getText();
+        if (!StrUtil.isEmpty(num)) {
+            Integer anInt;
+            if (NumberUtil.isNumber(num)) {
+                anInt = Integer.valueOf(num);
+            } else {
+                new ErrorDialog(new JFrame()).error("添加空行数输入错误！");
+                return;
+            }
+            Object[][] table = new Object[anInt][4];
+            addUserTable.setModel(new DefaultTableModel(
+                    table,
+                    new String[]{
+                            "\u8eab\u4efd\u8bc1", "\u59d3\u540d", "\u5bc6\u7801", "\u56e2\u652f\u90e8"
+                    }
+            ) {
+                Class<?>[] columnTypes = new Class<?>[]{
+                        String.class, String.class, String.class, String.class
+                };
+
+                @Override
+                public Class<?> getColumnClass(int columnIndex) {
+                    return columnTypes[columnIndex];
+                }
+            });
+        }
+    }
+
+    private void addUser(ActionEvent e) {
+        TableModel model = addUserTable.getModel();
+        int rowCount = addUserTable.getRowCount();
+        ArrayList<User> userList = new ArrayList<>();
+        for (int i = 0; i < rowCount; i++) {
+            User user = getUserData(model, i);
+            userList.add(user);
+        }
+        try {
+            UserService.batchAddUser(userList);
+            addUserTable.setModel(new DefaultTableModel(
+                    new Object[][]{
+                    },
+                    new String[]{
+                            "\u8eab\u4efd\u8bc1", "\u59d3\u540d", "\u5bc6\u7801", "\u56e2\u652f\u90e8"
+                    }
+            ) {
+                Class<?>[] columnTypes = new Class<?>[]{
+                        String.class, String.class, String.class, String.class
+                };
+
+                @Override
+                public Class<?> getColumnClass(int columnIndex) {
+                    return columnTypes[columnIndex];
+                }
+            });
+            addNumField.setText("");
+        } catch (Exception ex) {
+            new ErrorDialog(new JFrame()).error(ex.getMessage());
+        }
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         tabbedPane = new JTabbedPane();
@@ -161,14 +226,14 @@ public class AdminFrame extends JFrame {
         addPanel = new JPanel();
         scrollPane2 = new JScrollPane();
         addUserTable = new JTable();
-        vSpacer7 = new JPanel(null);
-        vSpacer8 = new JPanel(null);
-        hSpacer5 = new JPanel(null);
+        vSpacer9 = new JPanel(null);
+        vSpacer10 = new JPanel(null);
         hSpacer6 = new JPanel(null);
+        hSpacer7 = new JPanel(null);
         addNumLabel = new JLabel();
         addNumField = new JTextField();
+        vSpacer11 = new JPanel(null);
         addSpaceButton = new JButton();
-        vSpacer9 = new JPanel(null);
         addUserButton = new JButton();
 
         //======== this ========
@@ -337,7 +402,6 @@ public class AdminFrame extends JFrame {
                 {
 
                     //---- addUserTable ----
-                    addUserTable.setFont(addUserTable.getFont().deriveFont(addUserTable.getFont().getSize() + 5f));
                     addUserTable.setModel(new DefaultTableModel(
                             new Object[][]{
                             },
@@ -355,8 +419,8 @@ public class AdminFrame extends JFrame {
                         }
                     });
                     addUserTable.setAutoCreateRowSorter(true);
-                    addUserTable.setShowHorizontalLines(true);
-                    addUserTable.setShowVerticalLines(true);
+                    addUserTable.setRowHeight(35);
+                    addUserTable.setFont(addUserTable.getFont().deriveFont(addUserTable.getFont().getSize() + 5f));
                     scrollPane2.setViewportView(addUserTable);
                 }
 
@@ -364,78 +428,78 @@ public class AdminFrame extends JFrame {
                 addNumLabel.setText("\u6dfb\u52a0\u4eba\u6570\uff1a");
                 addNumLabel.setFont(addNumLabel.getFont().deriveFont(addNumLabel.getFont().getSize() + 5f));
 
+                //---- addNumField ----
+                addNumField.setFont(addNumField.getFont().deriveFont(addNumField.getFont().getSize() + 5f));
+
                 //---- addSpaceButton ----
                 addSpaceButton.setText("\u6dfb\u52a0\u7a7a\u884c");
                 addSpaceButton.setFont(addSpaceButton.getFont().deriveFont(addSpaceButton.getFont().getSize() + 5f));
+                addSpaceButton.addActionListener(e -> addSpace(e));
 
                 //---- addUserButton ----
                 addUserButton.setText("\u6dfb\u52a0\u7ba1\u7406\u5458");
                 addUserButton.setFont(addUserButton.getFont().deriveFont(addUserButton.getFont().getSize() + 5f));
+                addUserButton.addActionListener(e -> addUser(e));
 
                 GroupLayout addPanelLayout = new GroupLayout(addPanel);
                 addPanel.setLayout(addPanelLayout);
                 addPanelLayout.setHorizontalGroup(
                         addPanelLayout.createParallelGroup()
-                                .addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 1061, Short.MAX_VALUE)
+                                .addComponent(scrollPane2)
                                 .addGroup(addPanelLayout.createSequentialGroup()
                                         .addContainerGap()
                                         .addGroup(addPanelLayout.createParallelGroup()
-                                                .addComponent(vSpacer7, GroupLayout.DEFAULT_SIZE, 1049, Short.MAX_VALUE)
-                                                .addComponent(vSpacer8, GroupLayout.DEFAULT_SIZE, 1049, Short.MAX_VALUE)
+                                                .addComponent(vSpacer9, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(vSpacer10, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addGroup(addPanelLayout.createSequentialGroup()
-                                                        .addComponent(hSpacer5, GroupLayout.PREFERRED_SIZE, 448, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(hSpacer6, GroupLayout.PREFERRED_SIZE, 322, GroupLayout.PREFERRED_SIZE)
                                                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                         .addComponent(addNumLabel)
                                                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(addNumField, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
-                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(vSpacer9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(addNumField, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(vSpacer11, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                        .addGap(18, 18, 18)
                                                         .addGroup(addPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                                                                 .addComponent(addSpaceButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                                 .addComponent(addUserButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(hSpacer6, GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)))
+                                                        .addComponent(hSpacer7, GroupLayout.PREFERRED_SIZE, 374, GroupLayout.PREFERRED_SIZE)))
                                         .addContainerGap())
                 );
                 addPanelLayout.setVerticalGroup(
                         addPanelLayout.createParallelGroup()
                                 .addGroup(addPanelLayout.createSequentialGroup()
-                                        .addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+                                        .addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
                                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(vSpacer7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(vSpacer9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(addPanelLayout.createParallelGroup()
+                                                .addComponent(hSpacer7, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addGroup(addPanelLayout.createSequentialGroup()
-                                                        .addGap(23, 23, 23)
-                                                        .addGroup(addPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                                .addComponent(addNumField, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-                                                                .addComponent(addNumLabel, GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
-                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE))
-                                                .addGroup(addPanelLayout.createSequentialGroup()
-                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                         .addGroup(addPanelLayout.createParallelGroup()
-                                                                .addComponent(vSpacer9, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
-                                                                .addComponent(hSpacer6, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
-                                                                .addComponent(hSpacer5, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
-                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED))
-                                                .addGroup(addPanelLayout.createSequentialGroup()
-                                                        .addGap(27, 27, 27)
-                                                        .addComponent(addSpaceButton, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                        .addComponent(addUserButton, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)))
-                                        .addComponent(vSpacer8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                        .addContainerGap())
+                                                                .addGroup(addPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(addNumField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(addNumLabel, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE))
+                                                                .addGroup(addPanelLayout.createSequentialGroup()
+                                                                        .addComponent(addSpaceButton, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                        .addComponent(addUserButton, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
+                                                                .addComponent(hSpacer6, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE))
+                                                        .addGap(0, 0, Short.MAX_VALUE))
+                                                .addComponent(vSpacer11, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(vSpacer10, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 );
             }
-            tabbedPane.addTab("\u7ba1\u7406\u5458\u7684\u589e\u52a0", addPanel);
+            tabbedPane.addTab("\u7ba1\u7406\u5458\u7684\u6dfb\u52a0", addPanel);
         }
 
         GroupLayout contentPaneLayout = new GroupLayout(contentPane);
         contentPane.setLayout(contentPaneLayout);
         contentPaneLayout.setHorizontalGroup(
                 contentPaneLayout.createParallelGroup()
-                        .addComponent(tabbedPane)
+                        .addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 1061, Short.MAX_VALUE)
         );
         contentPaneLayout.setVerticalGroup(
                 contentPaneLayout.createParallelGroup()
@@ -468,14 +532,14 @@ public class AdminFrame extends JFrame {
     private JPanel addPanel;
     private JScrollPane scrollPane2;
     private JTable addUserTable;
-    private JPanel vSpacer7;
-    private JPanel vSpacer8;
-    private JPanel hSpacer5;
+    private JPanel vSpacer9;
+    private JPanel vSpacer10;
     private JPanel hSpacer6;
+    private JPanel hSpacer7;
     private JLabel addNumLabel;
     private JTextField addNumField;
+    private JPanel vSpacer11;
     private JButton addSpaceButton;
-    private JPanel vSpacer9;
     private JButton addUserButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }
