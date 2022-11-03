@@ -39,8 +39,14 @@ public class LoginFrame {
         try {
             if (UserService.login(user)) {
                 closeView();
-                MainFrame mainFrame = new MainFrame(UserService.getUser(idCard));
-                mainFrame.openView();
+                user = UserService.getUser(user.getIdCard());
+                if (user.getSuperAdmin() == 0) {
+                    MainFrame mainFrame = new MainFrame(UserService.getUser(idCard));
+                    mainFrame.openView();
+                } else {
+                    AdminFrame adminFrame = new AdminFrame();
+                    adminFrame.openView();
+                }
             }
         } catch (Exception ex) {
             new ErrorDialog(new JFrame()).error(ex.getMessage());
