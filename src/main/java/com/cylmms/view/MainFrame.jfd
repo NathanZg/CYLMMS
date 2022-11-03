@@ -22,11 +22,41 @@ new FormModel {
 					add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
 						name: "layeredPane1"
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {space :0:100:x}"
-							"$verticalGroup": "par l {space :0:100:x}"
+							"$horizontalGroup": "par l {seq t {space ::589:x, par t {comp welcomeLabel:::p:300:p, comp memberNumLabel:::p:300:p, comp curGpLabel::t:p:300:p, comp categoryLabel::t:p:300:p, comp industryLabel::t:p:300:p, comp supGpLabel::t:p:300:p}, space :p:196:p}}"
+							"$verticalGroup": "par l {seq l {space :p:102:p, comp welcomeLabel:::p:40:p, space u:::p, comp curGpLabel:::p:40:p, space u:::p, comp supGpLabel:::p:50:p, space u:::p, comp categoryLabel:::p:50:p, space :p:12:p, comp industryLabel:::p:50:p, space u:::p, comp memberNumLabel:::p:50:p, space ::43:x}}"
 						} ) {
 							name: "contentPanel"
 							"opaque": false
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "welcomeLabel"
+								"text": "欢迎您，"
+								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 8, false )
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "curGpLabel"
+								"text": "当前团支部："
+								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 8, false )
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "supGpLabel"
+								"text": "所属上级团组织："
+								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 8, false )
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "categoryLabel"
+								"text": "组织类别："
+								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 8, false )
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "industryLabel"
+								"text": "所属行业："
+								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 8, false )
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "memberNumLabel"
+								"text": "团员人数："
+								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 8, false )
+							} )
 						}, new FormLayoutConstraints( null ) {
 							"x": 0
 							"layer": 100

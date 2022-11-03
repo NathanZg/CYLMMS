@@ -5,8 +5,10 @@
 package com.cylmms.view;
 
 import cn.hutool.core.util.StrUtil;
+import com.cylmms.pojo.Gp;
 import com.cylmms.pojo.Member;
 import com.cylmms.pojo.User;
+import com.cylmms.service.GpService;
 import com.cylmms.service.MemberService;
 import com.cylmms.vo.MemberVo;
 
@@ -112,6 +114,21 @@ public class MainFrame {
 
     private void customInitComponents() {
         setTableHeaderFont();
+        setIndexInfo();
+    }
+
+    private void setIndexInfo() {
+        welcomeLabel.setText(welcomeLabel.getText() + loginUser.getName() + "!");
+        Gp g = getGp();
+        curGpLabel.setText(curGpLabel.getText() + g.getName());
+        supGpLabel.setText(supGpLabel.getText() + g.getSuperior());
+        categoryLabel.setText(categoryLabel.getText() + g.getCategory());
+        industryLabel.setText(industryLabel.getText() + g.getIndustry());
+        memberNumLabel.setText(memberNumLabel.getText() + g.getMemNum());
+    }
+
+    private Gp getGp() {
+        return GpService.getGp(loginUser.getDuty());
     }
 
     private void update(ActionEvent e) {
@@ -247,6 +264,12 @@ public class MainFrame {
         indexPanel = new JPanel();
         layeredPane1 = new JLayeredPane();
         contentPanel = new JPanel();
+        welcomeLabel = new JLabel();
+        curGpLabel = new JLabel();
+        supGpLabel = new JLabel();
+        categoryLabel = new JLabel();
+        industryLabel = new JLabel();
+        memberNumLabel = new JLabel();
         background = new JLabel();
         selectPanel = new JPanel();
         vSpacer1 = new JPanel(null);
@@ -308,15 +331,61 @@ public class MainFrame {
                         {
                             contentPanel.setOpaque(false);
 
+                            //---- welcomeLabel ----
+                            welcomeLabel.setText("\u6b22\u8fce\u60a8\uff0c");
+                            welcomeLabel.setFont(welcomeLabel.getFont().deriveFont(welcomeLabel.getFont().getSize() + 8f));
+
+                            //---- curGpLabel ----
+                            curGpLabel.setText("\u5f53\u524d\u56e2\u652f\u90e8\uff1a");
+                            curGpLabel.setFont(curGpLabel.getFont().deriveFont(curGpLabel.getFont().getSize() + 8f));
+
+                            //---- supGpLabel ----
+                            supGpLabel.setText("\u6240\u5c5e\u4e0a\u7ea7\u56e2\u7ec4\u7ec7\uff1a");
+                            supGpLabel.setFont(supGpLabel.getFont().deriveFont(supGpLabel.getFont().getSize() + 8f));
+
+                            //---- categoryLabel ----
+                            categoryLabel.setText("\u7ec4\u7ec7\u7c7b\u522b\uff1a");
+                            categoryLabel.setFont(categoryLabel.getFont().deriveFont(categoryLabel.getFont().getSize() + 8f));
+
+                            //---- industryLabel ----
+                            industryLabel.setText("\u6240\u5c5e\u884c\u4e1a\uff1a");
+                            industryLabel.setFont(industryLabel.getFont().deriveFont(industryLabel.getFont().getSize() + 8f));
+
+                            //---- memberNumLabel ----
+                            memberNumLabel.setText("\u56e2\u5458\u4eba\u6570\uff1a");
+                            memberNumLabel.setFont(memberNumLabel.getFont().deriveFont(memberNumLabel.getFont().getSize() + 8f));
+
                             GroupLayout contentPanelLayout = new GroupLayout(contentPanel);
                             contentPanel.setLayout(contentPanelLayout);
                             contentPanelLayout.setHorizontalGroup(
                                     contentPanelLayout.createParallelGroup()
-                                            .addGap(0, 100, Short.MAX_VALUE)
+                                            .addGroup(GroupLayout.Alignment.TRAILING, contentPanelLayout.createSequentialGroup()
+                                                    .addContainerGap(589, Short.MAX_VALUE)
+                                                    .addGroup(contentPanelLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                                                            .addComponent(welcomeLabel, GroupLayout.PREFERRED_SIZE, 300, GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(memberNumLabel, GroupLayout.PREFERRED_SIZE, 300, GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(curGpLabel, GroupLayout.PREFERRED_SIZE, 300, GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(categoryLabel, GroupLayout.PREFERRED_SIZE, 300, GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(industryLabel, GroupLayout.PREFERRED_SIZE, 300, GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(supGpLabel, GroupLayout.PREFERRED_SIZE, 300, GroupLayout.PREFERRED_SIZE))
+                                                    .addGap(196, 196, 196))
                             );
                             contentPanelLayout.setVerticalGroup(
                                     contentPanelLayout.createParallelGroup()
-                                            .addGap(0, 100, Short.MAX_VALUE)
+                                            .addGroup(contentPanelLayout.createSequentialGroup()
+                                                    .addGap(102, 102, 102)
+                                                    .addComponent(welcomeLabel, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                    .addComponent(curGpLabel, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                    .addComponent(supGpLabel, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                    .addComponent(categoryLabel, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                                                    .addGap(12, 12, 12)
+                                                    .addComponent(industryLabel, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                    .addComponent(memberNumLabel, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                                                    .addContainerGap(43, Short.MAX_VALUE))
                             );
                         }
                         layeredPane1.add(contentPanel, JLayeredPane.PALETTE_LAYER);
@@ -667,6 +736,12 @@ public class MainFrame {
     private JPanel indexPanel;
     private JLayeredPane layeredPane1;
     private JPanel contentPanel;
+    private JLabel welcomeLabel;
+    private JLabel curGpLabel;
+    private JLabel supGpLabel;
+    private JLabel categoryLabel;
+    private JLabel industryLabel;
+    private JLabel memberNumLabel;
     private JLabel background;
     private JPanel selectPanel;
     private JPanel vSpacer1;
