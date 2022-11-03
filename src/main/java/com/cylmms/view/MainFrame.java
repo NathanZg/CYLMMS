@@ -159,24 +159,22 @@ public class MainFrame {
 
     private Member getMemberData(TableModel model, int rowIndex) {
         Member member = new Member();
-        for (int i = 0; i < 8; i++) {
-            String idCard = (String) model.getValueAt(rowIndex, 0);
-            member.setIdCard(idCard);
-            String name = (String) model.getValueAt(rowIndex, 1);
-            member.setName(name);
-            Integer age = (Integer) model.getValueAt(rowIndex, 2);
-            member.setAge(age);
-            Integer groupAge = (Integer) model.getValueAt(rowIndex, 3);
-            member.setGroupAge(groupAge);
-            String politicsStatus = (String) model.getValueAt(rowIndex, 4);
-            member.setPoliticsStatus(politicsStatus);
-            String national = (String) model.getValueAt(rowIndex, 5);
-            member.setNational(national);
-            String duty = (String) model.getValueAt(rowIndex, 6);
-            member.setDuty(duty);
-            String affiliated = (String) model.getValueAt(rowIndex, 7);
-            member.setAffiliated(affiliated);
-        }
+        String idCard = (String) model.getValueAt(rowIndex, 0);
+        member.setIdCard(idCard);
+        String name = (String) model.getValueAt(rowIndex, 1);
+        member.setName(name);
+        Integer age = (Integer) model.getValueAt(rowIndex, 2);
+        member.setAge(age);
+        Integer groupAge = (Integer) model.getValueAt(rowIndex, 3);
+        member.setGroupAge(groupAge);
+        String politicsStatus = (String) model.getValueAt(rowIndex, 4);
+        member.setPoliticsStatus(politicsStatus);
+        String national = (String) model.getValueAt(rowIndex, 5);
+        member.setNational(national);
+        String duty = (String) model.getValueAt(rowIndex, 6);
+        member.setDuty(duty);
+        String affiliated = (String) model.getValueAt(rowIndex, 7);
+        member.setAffiliated(affiliated);
         return member;
     }
 

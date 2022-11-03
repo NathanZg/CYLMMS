@@ -36,6 +36,11 @@ public class UserService extends BaseService {
             if (!StrUtil.isEmpty(name)) {
                 criteria.andNameLike(name);
             }
+            String duty = userVo.getDuty();
+            if (!StrUtil.isEmpty(duty)) {
+                criteria.andDutyLike(duty);
+            }
+            criteria.andSuperAdminEqualTo(0);
             return mapper.selectByExample(userExample);
         }
     }
@@ -73,6 +78,7 @@ public class UserService extends BaseService {
         try (SqlSession sqlSession = getSqlSession()) {
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
             if (check(user)) {
+                user.setPassword(EncryptUtils.encode(user.getPassword()));
                 mapper.updateByPrimaryKey(user);
             } else {
                 throw new Exception("属性不可为空！");
@@ -80,10 +86,41 @@ public class UserService extends BaseService {
         }
     }
 
+    public static void batchUpdateUser(List<User> userList) throws Exception {
+        try (SqlSession sqlSession = getBatchSqlSession()) {
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            for (User user : userList) {
+                if (check(user)) {
+                    user.setPassword(EncryptUtils.encode(user.getPassword()));
+                    mapper.updateByPrimaryKey(user);
+                } else {
+                    sqlSession.rollback();
+                    throw new Exception("属性不可以为空！");
+                }
+            }
+            sqlSession.commit();
+        }
+    }
+
     public static void deleteUser(User user) {
         try (SqlSession sqlSession = getSqlSession()) {
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
             mapper.deleteByPrimaryKey(user.getIdCard());
+        }
+    }
+
+    public static void batchDeleteMember(List<String> idCardList) throws Exception {
+        try (SqlSession sqlSession = getBatchSqlSession()) {
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            for (String idCard : idCardList) {
+                if (!StrUtil.isEmpty(idCard)) {
+                    mapper.deleteByPrimaryKey(idCard);
+                } else {
+                    sqlSession.rollback();
+                    throw new Exception("身份证不能为空！");
+                }
+            }
+            sqlSession.commit();
         }
     }
 
