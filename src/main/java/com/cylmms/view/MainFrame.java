@@ -153,6 +153,7 @@ public class MainFrame {
             MemberService.batchUpdateMember(memberList);
             freshDate();
         } catch (Exception ex) {
+            freshDate();
             new ErrorDialog(new JFrame()).error(ex.getMessage());
         }
     }
@@ -194,6 +195,7 @@ public class MainFrame {
             GpService.updateGp(gp);
             setIndexInfo();
         } catch (Exception ex) {
+            freshDate();
             new ErrorDialog(new JFrame()).error(ex.getMessage());
         }
     }

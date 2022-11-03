@@ -18,7 +18,7 @@ new FormModel {
 					"$horizontalGroup": "par l {comp scrollPane1::::1061:x, seq {par l {seq {space :::p, comp vSpacer2::::1049:x}, comp vSpacer1::l::1055:x, seq l {comp hSpacer1:::p:286:p, space :::p, par l {comp dutyLabel:::p::p, comp idCardLable::l:p:75:p, comp nameLabel::l:p:59:p}, space :p:12:p, par l:::p {comp idCardField::::209:x, comp nameField::l::209:x, comp dutyField::l::209:x}, space :::p, comp vSpacer3:::p::p, space :::x, par l {comp updateButton::t:p::p, comp selectButton::t:p::p, comp deleteButton::t:p::p}, space u:::p, comp hSpacer2:::p:343:p}}, space :::p}}"
 					"$verticalGroup": "par l {seq l {comp scrollPane1::::294:x, space :::p, comp vSpacer1:::p::p, space :::p, par l {seq {par l {seq {par b {comp idCardField::b:p::p, comp idCardLable::b:p:40:p}, space u:::p, par b {comp nameField::b:p::p, comp nameLabel::b:p:40:p}, space :::p, par b {comp dutyLabel::b:p:40:p, comp dutyField::b:p::p}}, comp vSpacer3::l:p:151:p, seq l {comp selectButton:::p:40:p, space u:::p, comp updateButton:::p:40:p, space :::p, comp deleteButton:::p:40:p}}, space :0:0:x}, comp hSpacer2::l:::x, comp hSpacer1::l:::x}, space :::p, comp vSpacer2:::p::p}}"
 				} ) {
-					name: "selectAndUpdateAndDeletePanel"
+					name: "userSelectAndUpdateAndDeletePanel"
 					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
 					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 						name: "scrollPane1"
@@ -104,7 +104,7 @@ new FormModel {
 						name: "updateButton"
 						"text": "更新"
 						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "update", true ) )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "updateUserDate", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "deleteButton"
@@ -113,7 +113,7 @@ new FormModel {
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "delete", true ) )
 					} )
 				}, new FormLayoutConstraints( null ) {
-					"title": "管理员的查询更新修改"
+					"title": "管理员的查询更新删除"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 					"$horizontalGroup": "par l {comp scrollPane2::l:::x, seq {space :::p, par l {comp vSpacer9:::::x, comp vSpacer10:::::x, seq l {comp hSpacer6:::p:322:p, space :::p, comp addNumLabel:::p::p, space :::p, comp addNumField:::p:96:p, space :::x, comp vSpacer11:::p::p, space s:::p, par l:::p {comp addSpaceButton:::::x, comp addUserButton:::::x}, space :::p, comp hSpacer7:::p:374:p}}, space :::p}}"
@@ -189,6 +189,117 @@ new FormModel {
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "管理员的添加"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {comp scrollPane3::l::1147:x, seq {space :::p, par l {comp vSpacer4::::1135:x, comp vSpacer5::::1135:x, seq l {comp hSpacer3:::p:212:p, space :::p, par l:::p {comp supGpLabel:::::x, comp gpNameLabel:::::x}, space :::p, par l:::p {comp gpNameField::::89:x, comp supGpField::::89:x}, space u:::p, par l:::p {comp categoryLabel:::::x, comp industryLabel:::::x}, space s:::p, par l:::p {comp categoryField::::90:x, comp industryField::::90:x}, space :::p, comp vSpacer6::::7:x, space :p:71:p, par l {comp selectGpButton::t:p::p, comp updateGpButton::t:p::p, comp deleteGpButton::t:p::p}, space :::p, comp hSpacer4:::p:354:p}}, space :::p}}"
+					"$verticalGroup": "par l {seq l {comp scrollPane3::::323:x, space :::p, comp vSpacer4:::p::p, space :::p, par l {comp hSpacer4::l:::x, seq {par l {par t:l::p {seq l {comp categoryField:::p::p, space s:::p, comp industryField:::::x}, seq {par b {comp gpNameLabel::b:p:35:p, comp gpNameField::b:p::p, comp categoryLabel::b:p:35:p}, space u:::p, par l:::p {comp industryLabel:::::x, par b {comp supGpLabel::b:p:35:p, comp supGpField::b:p::p}}}}, seq l {comp selectGpButton:::p:30:p, space u:::p, comp updateGpButton:::p:30:p, space :::p, comp deleteGpButton:::p:30:p}, comp vSpacer6::l:p:108:p, comp hSpacer3::l:p:116:p}, space :0:0:x}}, space :::x, comp vSpacer5:::p::p, space :::p}}"
+				} ) {
+					name: "GpSelectAndUpdateAndDeletePanel"
+					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+						name: "scrollPane3"
+						add( new FormComponent( "javax.swing.JTable" ) {
+							name: "gpTable"
+							"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+							"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector, new java.util.Vector {
+								add( "组织名称" )
+								add( "上级组织" )
+								add( "组织类别" )
+								add( "所属行业" )
+								add( "人数" )
+							}, new java.util.Vector {
+								add( class java.lang.String )
+								add( class java.lang.String )
+								add( class java.lang.String )
+								add( class java.lang.String )
+								add( class java.lang.Integer )
+							}, new java.util.Vector {
+								add( false )
+								add( true )
+								add( null )
+								add( null )
+								add( false )
+							}, new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							} )
+							"rowHeight": 35
+						} )
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
+						name: "vSpacer4"
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
+						name: "vSpacer5"
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+						name: "hSpacer3"
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+						name: "hSpacer4"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "gpNameLabel"
+						"text": "组织名称："
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "gpNameField"
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "supGpLabel"
+						"text": "上级组织："
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "supGpField"
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "categoryLabel"
+						"text": "组织类别："
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "categoryField"
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "industryLabel"
+						"text": "所属行业："
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "industryField"
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "selectGpButton"
+						"text": "查询"
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "selectGp", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "updateGpButton"
+						"text": "更新"
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "updateGpDate", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "deleteGpButton"
+						"text": "删除"
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "deleteGp", true ) )
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
+						name: "vSpacer6"
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": "团组织的查询更新删除"
 				} )
 			} )
 		}, new FormLayoutConstraints( null ) {

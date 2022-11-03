@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface GpMapper {
 
+    int getCountBySuperior(String superior);
+
     Gp selectByName(String name);
 
     /**

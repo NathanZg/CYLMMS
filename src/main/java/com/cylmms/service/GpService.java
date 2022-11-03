@@ -3,6 +3,8 @@ package com.cylmms.service;
 import cn.hutool.core.util.StrUtil;
 import com.cylmms.mapper.GpMapper;
 import com.cylmms.pojo.Gp;
+import com.cylmms.pojo.GpExample;
+import com.cylmms.vo.GpVo;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
@@ -66,10 +68,19 @@ public class GpService extends BaseService {
             GpMapper mapper = sqlSession.getMapper(GpMapper.class);
             for (Gp gp : GpList) {
                 if (check(gp)) {
+                    String superior = gp.getSuperior();
+                    if (superior != null) {
+                        int count = mapper.getCountBySuperior(superior);
+                        if (count <= 0) {
+                            throw new Exception("不存在【" + superior + "】上级团组织！");
+                        }
+                    }
+                    Gp tmpGp = getGp(gp.getName());
+                    gp.setId(tmpGp.getId());
                     mapper.updateByPrimaryKey(gp);
                 } else {
                     sqlSession.rollback();
-                    throw new Exception("属性不可以为空！");
+                    throw new Exception("除了上级团支部，其他属性不可以为空！");
                 }
             }
             sqlSession.commit();
@@ -83,15 +94,22 @@ public class GpService extends BaseService {
         }
     }
 
-    public static void batchDeleteGp(List<Integer> idList) throws Exception {
+    public static void batchDeleteGp(List<String> idList) throws Exception {
         try (SqlSession sqlSession = getBatchSqlSession()) {
             GpMapper mapper = sqlSession.getMapper(GpMapper.class);
-            for (Integer id : idList) {
-                if (id != null) {
-                    mapper.deleteByPrimaryKey(id);
+            for (String name : idList) {
+                if (!StrUtil.isEmpty(name)) {
+                    Gp gp = mapper.selectByName(name);
+                    Integer memNum = gp.getMemNum();
+                    if (memNum > 0) {
+                        sqlSession.rollback();
+                        throw new Exception("名称为【" + name + "】的团支部人数大于零，无法删除！");
+                    } else {
+                        mapper.deleteByPrimaryKey(gp.getId());
+                    }
                 } else {
                     sqlSession.rollback();
-                    throw new Exception("id不能为空！");
+                    throw new Exception("名称不能为空！");
                 }
             }
             sqlSession.commit();
@@ -100,7 +118,6 @@ public class GpService extends BaseService {
 
     public static boolean check(Gp gp) {
         if (StrUtil.isEmpty(gp.getName()) ||
-                StrUtil.isEmpty(gp.getSuperior()) ||
                 StrUtil.isEmpty(gp.getCategory()) ||
                 StrUtil.isEmpty(gp.getIndustry()) ||
                 gp.getMemNum() == null) {
@@ -122,4 +139,28 @@ public class GpService extends BaseService {
         }
     }
 
+    public static List<Gp> getByCondition(GpVo gpVo) {
+        try (SqlSession sqlSession = getSqlSession()) {
+            GpMapper mapper = sqlSession.getMapper(GpMapper.class);
+            GpExample gpExample = new GpExample();
+            GpExample.Criteria criteria = gpExample.createCriteria();
+            String name = gpVo.getName();
+            if (!StrUtil.isEmpty(name)) {
+                criteria.andNameLike(name);
+            }
+            String superior = gpVo.getSuperior();
+            if (!StrUtil.isEmpty(superior)) {
+                criteria.andSuperiorLike(superior);
+            }
+            String category = gpVo.getCategory();
+            if (!StrUtil.isEmpty(category)) {
+                criteria.andCategoryLike(category);
+            }
+            String industry = gpVo.getIndustry();
+            if (!StrUtil.isEmpty(industry)) {
+                criteria.andIndustryLike(industry);
+            }
+            return mapper.selectByExample(gpExample);
+        }
+    }
 }

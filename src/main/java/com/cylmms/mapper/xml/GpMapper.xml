@@ -208,6 +208,11 @@
     gp
     where name = #{name,jdbcType=VARCHAR}
   </select>
+  <select id="getCountBySuperior" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(*)
+    from gp
+    where name = #{superior,jdbcType=VARCHAR}
+  </select>
   <update id="updateByExampleSelective" parameterType="map">
     <!--
       WARNING - @mbg.generated

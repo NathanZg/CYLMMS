@@ -6,9 +6,12 @@ package com.cylmms.view;
 
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
+import com.cylmms.pojo.Gp;
 import com.cylmms.pojo.User;
+import com.cylmms.service.GpService;
 import com.cylmms.service.UserService;
 import com.cylmms.utils.EncryptUtils;
+import com.cylmms.vo.GpVo;
 import com.cylmms.vo.UserVo;
 
 import javax.swing.*;
@@ -41,11 +44,13 @@ public class AdminFrame extends JFrame {
     private void setTableHeaderFont() {
         JTableHeader userTableHeader = userTable.getTableHeader();
         JTableHeader addUserTableHeader = addUserTable.getTableHeader();
+        JTableHeader gpTableHeader = gpTable.getTableHeader();
         userTableHeader.setFont(userTableHeader.getFont().deriveFont(userTableHeader.getFont().getSize() + 5f));
         addUserTableHeader.setFont(addUserTableHeader.getFont().deriveFont(addUserTableHeader.getFont().getSize() + 5f));
+        gpTableHeader.setFont(gpTableHeader.getFont().deriveFont(gpTableHeader.getFont().getSize() + 5f));
     }
 
-    private void freshDate() {
+    private void freshUserDate() {
         UserVo userVo = new UserVo();
         String name = nameField.getText();
         String idCard = idCardField.getText();
@@ -87,8 +92,58 @@ public class AdminFrame extends JFrame {
         });
     }
 
+    private void freshGpDate() {
+        GpVo gpVo = new GpVo();
+        String name = gpNameField.getText();
+        String supGp = supGpField.getText();
+        String category = categoryField.getText();
+        String industry = industryField.getText();
+        gpVo.setName(name);
+        gpVo.setSuperior(supGp);
+        gpVo.setCategory(category);
+        gpVo.setIndustry(industry);
+        List<Gp> gpList = GpService.getByCondition(gpVo);
+        Object[][] gps = new Object[gpList.size()][5];
+        for (int i = 0; i < gpList.size(); i++) {
+            Gp gp = gpList.get(i);
+            gps[i][0] = gp.getName();
+            String superior = gp.getSuperior();
+            if (superior == null) {
+                gps[i][1] = "";
+            } else {
+                gps[i][1] = superior;
+            }
+            gps[i][2] = gp.getCategory();
+            gps[i][3] = gp.getIndustry();
+            gps[i][4] = gp.getMemNum();
+        }
+        gpTable.setModel(new DefaultTableModel(
+                gps,
+                new String[]{
+                        "\u7ec4\u7ec7\u540d\u79f0", "\u4e0a\u7ea7\u7ec4\u7ec7", "\u7ec4\u7ec7\u7c7b\u522b", "\u6240\u5c5e\u884c\u4e1a", "\u4eba\u6570"
+                }
+        ) {
+            Class<?>[] columnTypes = new Class<?>[]{
+                    String.class, String.class, String.class, String.class, Integer.class
+            };
+            boolean[] columnEditable = new boolean[]{
+                    false, true, true, true, false
+            };
+
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                return columnTypes[columnIndex];
+            }
+
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return columnEditable[columnIndex];
+            }
+        });
+    }
+
     private void select(ActionEvent e) {
-        freshDate();
+        freshUserDate();
     }
 
     private void customInitComponents() {
@@ -97,21 +152,38 @@ public class AdminFrame extends JFrame {
 
     private User getUserData(TableModel model, int rowIndex) {
         User user = new User();
-        for (int i = 0; i < 4; i++) {
-            String idCard = (String) model.getValueAt(rowIndex, 0);
-            user.setIdCard(idCard);
-            String name = (String) model.getValueAt(rowIndex, 1);
-            user.setName(name);
-            String password = (String) model.getValueAt(rowIndex, 2);
-            user.setPassword(password);
-            String duty = (String) model.getValueAt(rowIndex, 3);
-            user.setDuty(duty);
-            user.setSuperAdmin(0);
-        }
+        String idCard = (String) model.getValueAt(rowIndex, 0);
+        user.setIdCard(idCard);
+        String name = (String) model.getValueAt(rowIndex, 1);
+        user.setName(name);
+        String password = (String) model.getValueAt(rowIndex, 2);
+        user.setPassword(password);
+        String duty = (String) model.getValueAt(rowIndex, 3);
+        user.setDuty(duty);
+        user.setSuperAdmin(0);
         return user;
     }
 
-    private void update(ActionEvent e) {
+    private Gp getGpData(TableModel model, int rowIndex) {
+        Gp gp = new Gp();
+        String name = (String) model.getValueAt(rowIndex, 0);
+        gp.setName(name);
+        String sup = (String) model.getValueAt(rowIndex, 1);
+        if ("".equals(sup)) {
+            gp.setSuperior(null);
+        } else {
+            gp.setSuperior(sup);
+        }
+        String category = (String) model.getValueAt(rowIndex, 2);
+        gp.setCategory(category);
+        String industry = (String) model.getValueAt(rowIndex, 3);
+        gp.setIndustry(industry);
+        Integer memNum = (Integer) model.getValueAt(rowIndex, 4);
+        gp.setMemNum(memNum);
+        return gp;
+    }
+
+    private void updateUserDate(ActionEvent e) {
         int[] selectedRows = userTable.getSelectedRows();
         TableModel model = userTable.getModel();
         ArrayList<User> userList = new ArrayList<>();
@@ -120,8 +192,9 @@ public class AdminFrame extends JFrame {
         }
         try {
             UserService.batchUpdateUser(userList);
-            freshDate();
+            freshUserDate();
         } catch (Exception ex) {
+            freshUserDate();
             new ErrorDialog(new JFrame()).error(ex.getMessage());
         }
     }
@@ -136,7 +209,7 @@ public class AdminFrame extends JFrame {
         }
         try {
             UserService.batchDeleteMember(idCardList);
-            freshDate();
+            freshUserDate();
         } catch (Exception ex) {
             new ErrorDialog(new JFrame()).error(ex.getMessage());
         }
@@ -203,10 +276,47 @@ public class AdminFrame extends JFrame {
         }
     }
 
+    private void selectGp(ActionEvent e) {
+        freshGpDate();
+    }
+
+    private void updateGpDate(ActionEvent e) {
+        int[] selectedRows = gpTable.getSelectedRows();
+        TableModel model = gpTable.getModel();
+        ArrayList<Gp> gpList = new ArrayList<>();
+        for (int rowIndex : selectedRows) {
+            gpList.add(getGpData(model, rowIndex));
+        }
+        try {
+            GpService.batchUpdateGp(gpList);
+            freshGpDate();
+        } catch (Exception ex) {
+            freshGpDate();
+            new ErrorDialog(new JFrame()).error(ex.getMessage());
+        }
+    }
+
+    private void deleteGp(ActionEvent e) {
+        int[] selectedRows = gpTable.getSelectedRows();
+        TableModel model = gpTable.getModel();
+        ArrayList<String> nameList = new ArrayList<>();
+        for (int rowIndex : selectedRows) {
+            String name = (String) model.getValueAt(rowIndex, 0);
+            nameList.add(name);
+        }
+        try {
+            GpService.batchDeleteGp(nameList);
+            freshUserDate();
+        } catch (Exception ex) {
+            freshUserDate();
+            new ErrorDialog(new JFrame()).error(ex.getMessage());
+        }
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         tabbedPane = new JTabbedPane();
-        selectAndUpdateAndDeletePanel = new JPanel();
+        userSelectAndUpdateAndDeletePanel = new JPanel();
         scrollPane1 = new JScrollPane();
         userTable = new JTable();
         vSpacer1 = new JPanel(null);
@@ -235,6 +345,25 @@ public class AdminFrame extends JFrame {
         vSpacer11 = new JPanel(null);
         addSpaceButton = new JButton();
         addUserButton = new JButton();
+        GpSelectAndUpdateAndDeletePanel = new JPanel();
+        scrollPane3 = new JScrollPane();
+        gpTable = new JTable();
+        vSpacer4 = new JPanel(null);
+        vSpacer5 = new JPanel(null);
+        hSpacer3 = new JPanel(null);
+        hSpacer4 = new JPanel(null);
+        gpNameLabel = new JLabel();
+        gpNameField = new JTextField();
+        supGpLabel = new JLabel();
+        supGpField = new JTextField();
+        categoryLabel = new JLabel();
+        categoryField = new JTextField();
+        industryLabel = new JLabel();
+        industryField = new JTextField();
+        selectGpButton = new JButton();
+        updateGpButton = new JButton();
+        deleteGpButton = new JButton();
+        vSpacer6 = new JPanel(null);
 
         //======== this ========
         setTitle("\u56e2\u5458\u7ba1\u7406\u7cfb\u7edf-\u8d85\u7ea7\u7ba1\u7406");
@@ -246,9 +375,9 @@ public class AdminFrame extends JFrame {
         {
             tabbedPane.setFont(tabbedPane.getFont().deriveFont(tabbedPane.getFont().getSize() + 7f));
 
-            //======== selectAndUpdateAndDeletePanel ========
+            //======== userSelectAndUpdateAndDeletePanel ========
             {
-                selectAndUpdateAndDeletePanel.setFont(selectAndUpdateAndDeletePanel.getFont().deriveFont(selectAndUpdateAndDeletePanel.getFont().getSize() + 5f));
+                userSelectAndUpdateAndDeletePanel.setFont(userSelectAndUpdateAndDeletePanel.getFont().deriveFont(userSelectAndUpdateAndDeletePanel.getFont().getSize() + 5f));
 
                 //======== scrollPane1 ========
                 {
@@ -315,40 +444,40 @@ public class AdminFrame extends JFrame {
                 //---- updateButton ----
                 updateButton.setText("\u66f4\u65b0");
                 updateButton.setFont(updateButton.getFont().deriveFont(updateButton.getFont().getSize() + 5f));
-                updateButton.addActionListener(e -> update(e));
+                updateButton.addActionListener(e -> updateUserDate(e));
 
                 //---- deleteButton ----
                 deleteButton.setText("\u5220\u9664");
                 deleteButton.setFont(deleteButton.getFont().deriveFont(deleteButton.getFont().getSize() + 5f));
                 deleteButton.addActionListener(e -> delete(e));
 
-                GroupLayout selectAndUpdateAndDeletePanelLayout = new GroupLayout(selectAndUpdateAndDeletePanel);
-                selectAndUpdateAndDeletePanel.setLayout(selectAndUpdateAndDeletePanelLayout);
-                selectAndUpdateAndDeletePanelLayout.setHorizontalGroup(
-                        selectAndUpdateAndDeletePanelLayout.createParallelGroup()
+                GroupLayout userSelectAndUpdateAndDeletePanelLayout = new GroupLayout(userSelectAndUpdateAndDeletePanel);
+                userSelectAndUpdateAndDeletePanel.setLayout(userSelectAndUpdateAndDeletePanelLayout);
+                userSelectAndUpdateAndDeletePanelLayout.setHorizontalGroup(
+                        userSelectAndUpdateAndDeletePanelLayout.createParallelGroup()
                                 .addComponent(scrollPane1, GroupLayout.DEFAULT_SIZE, 1061, Short.MAX_VALUE)
-                                .addGroup(selectAndUpdateAndDeletePanelLayout.createSequentialGroup()
-                                        .addGroup(selectAndUpdateAndDeletePanelLayout.createParallelGroup()
-                                                .addGroup(selectAndUpdateAndDeletePanelLayout.createSequentialGroup()
+                                .addGroup(userSelectAndUpdateAndDeletePanelLayout.createSequentialGroup()
+                                        .addGroup(userSelectAndUpdateAndDeletePanelLayout.createParallelGroup()
+                                                .addGroup(userSelectAndUpdateAndDeletePanelLayout.createSequentialGroup()
                                                         .addContainerGap()
                                                         .addComponent(vSpacer2, GroupLayout.DEFAULT_SIZE, 1049, Short.MAX_VALUE))
                                                 .addComponent(vSpacer1, GroupLayout.DEFAULT_SIZE, 1055, Short.MAX_VALUE)
-                                                .addGroup(selectAndUpdateAndDeletePanelLayout.createSequentialGroup()
+                                                .addGroup(userSelectAndUpdateAndDeletePanelLayout.createSequentialGroup()
                                                         .addComponent(hSpacer1, GroupLayout.PREFERRED_SIZE, 286, GroupLayout.PREFERRED_SIZE)
                                                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addGroup(selectAndUpdateAndDeletePanelLayout.createParallelGroup()
+                                                        .addGroup(userSelectAndUpdateAndDeletePanelLayout.createParallelGroup()
                                                                 .addComponent(dutyLabel)
                                                                 .addComponent(idCardLable, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
                                                                 .addComponent(nameLabel, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE))
                                                         .addGap(12, 12, 12)
-                                                        .addGroup(selectAndUpdateAndDeletePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                                        .addGroup(userSelectAndUpdateAndDeletePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                                                                 .addComponent(idCardField, GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
                                                                 .addComponent(nameField, GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
                                                                 .addComponent(dutyField, GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE))
                                                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                         .addComponent(vSpacer3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addGroup(selectAndUpdateAndDeletePanelLayout.createParallelGroup()
+                                                        .addGroup(userSelectAndUpdateAndDeletePanelLayout.createParallelGroup()
                                                                 .addComponent(updateButton, GroupLayout.Alignment.TRAILING)
                                                                 .addComponent(selectButton, GroupLayout.Alignment.TRAILING)
                                                                 .addComponent(deleteButton, GroupLayout.Alignment.TRAILING))
@@ -356,30 +485,30 @@ public class AdminFrame extends JFrame {
                                                         .addComponent(hSpacer2, GroupLayout.PREFERRED_SIZE, 343, GroupLayout.PREFERRED_SIZE)))
                                         .addContainerGap())
                 );
-                selectAndUpdateAndDeletePanelLayout.setVerticalGroup(
-                        selectAndUpdateAndDeletePanelLayout.createParallelGroup()
-                                .addGroup(selectAndUpdateAndDeletePanelLayout.createSequentialGroup()
+                userSelectAndUpdateAndDeletePanelLayout.setVerticalGroup(
+                        userSelectAndUpdateAndDeletePanelLayout.createParallelGroup()
+                                .addGroup(userSelectAndUpdateAndDeletePanelLayout.createSequentialGroup()
                                         .addComponent(scrollPane1, GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
                                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(vSpacer1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(selectAndUpdateAndDeletePanelLayout.createParallelGroup()
-                                                .addGroup(selectAndUpdateAndDeletePanelLayout.createSequentialGroup()
-                                                        .addGroup(selectAndUpdateAndDeletePanelLayout.createParallelGroup()
-                                                                .addGroup(selectAndUpdateAndDeletePanelLayout.createSequentialGroup()
-                                                                        .addGroup(selectAndUpdateAndDeletePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addGroup(userSelectAndUpdateAndDeletePanelLayout.createParallelGroup()
+                                                .addGroup(userSelectAndUpdateAndDeletePanelLayout.createSequentialGroup()
+                                                        .addGroup(userSelectAndUpdateAndDeletePanelLayout.createParallelGroup()
+                                                                .addGroup(userSelectAndUpdateAndDeletePanelLayout.createSequentialGroup()
+                                                                        .addGroup(userSelectAndUpdateAndDeletePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                                                                 .addComponent(idCardField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                                                                 .addComponent(idCardLable, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
                                                                         .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                        .addGroup(selectAndUpdateAndDeletePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                                        .addGroup(userSelectAndUpdateAndDeletePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                                                                 .addComponent(nameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                                                                 .addComponent(nameLabel, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
                                                                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                                        .addGroup(selectAndUpdateAndDeletePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                                        .addGroup(userSelectAndUpdateAndDeletePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                                                                 .addComponent(dutyLabel, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
                                                                                 .addComponent(dutyField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
                                                                 .addComponent(vSpacer3, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE)
-                                                                .addGroup(selectAndUpdateAndDeletePanelLayout.createSequentialGroup()
+                                                                .addGroup(userSelectAndUpdateAndDeletePanelLayout.createSequentialGroup()
                                                                         .addComponent(selectButton, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
                                                                         .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                                                         .addComponent(updateButton, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
@@ -392,7 +521,7 @@ public class AdminFrame extends JFrame {
                                         .addComponent(vSpacer2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 );
             }
-            tabbedPane.addTab("\u7ba1\u7406\u5458\u7684\u67e5\u8be2\u66f4\u65b0\u4fee\u6539", selectAndUpdateAndDeletePanel);
+            tabbedPane.addTab("\u7ba1\u7406\u5458\u7684\u67e5\u8be2\u66f4\u65b0\u5220\u9664", userSelectAndUpdateAndDeletePanel);
 
             //======== addPanel ========
             {
@@ -493,6 +622,168 @@ public class AdminFrame extends JFrame {
                 );
             }
             tabbedPane.addTab("\u7ba1\u7406\u5458\u7684\u6dfb\u52a0", addPanel);
+
+            //======== GpSelectAndUpdateAndDeletePanel ========
+            {
+                GpSelectAndUpdateAndDeletePanel.setFont(GpSelectAndUpdateAndDeletePanel.getFont().deriveFont(GpSelectAndUpdateAndDeletePanel.getFont().getSize() + 5f));
+
+                //======== scrollPane3 ========
+                {
+
+                    //---- gpTable ----
+                    gpTable.setFont(gpTable.getFont().deriveFont(gpTable.getFont().getSize() + 5f));
+                    gpTable.setModel(new DefaultTableModel(
+                            new Object[][]{
+                            },
+                            new String[]{
+                                    "\u7ec4\u7ec7\u540d\u79f0", "\u4e0a\u7ea7\u7ec4\u7ec7", "\u7ec4\u7ec7\u7c7b\u522b", "\u6240\u5c5e\u884c\u4e1a", "\u4eba\u6570"
+                            }
+                    ) {
+                        Class<?>[] columnTypes = new Class<?>[]{
+                                String.class, String.class, String.class, String.class, Integer.class
+                        };
+                        boolean[] columnEditable = new boolean[]{
+                                false, true, true, true, false
+                        };
+
+                        @Override
+                        public Class<?> getColumnClass(int columnIndex) {
+                            return columnTypes[columnIndex];
+                        }
+
+                        @Override
+                        public boolean isCellEditable(int rowIndex, int columnIndex) {
+                            return columnEditable[columnIndex];
+                        }
+                    });
+                    gpTable.setRowHeight(35);
+                    scrollPane3.setViewportView(gpTable);
+                }
+
+                //---- gpNameLabel ----
+                gpNameLabel.setText("\u7ec4\u7ec7\u540d\u79f0\uff1a");
+                gpNameLabel.setFont(gpNameLabel.getFont().deriveFont(gpNameLabel.getFont().getSize() + 5f));
+
+                //---- gpNameField ----
+                gpNameField.setFont(gpNameField.getFont().deriveFont(gpNameField.getFont().getSize() + 5f));
+
+                //---- supGpLabel ----
+                supGpLabel.setText("\u4e0a\u7ea7\u7ec4\u7ec7\uff1a");
+                supGpLabel.setFont(supGpLabel.getFont().deriveFont(supGpLabel.getFont().getSize() + 5f));
+
+                //---- supGpField ----
+                supGpField.setFont(supGpField.getFont().deriveFont(supGpField.getFont().getSize() + 5f));
+
+                //---- categoryLabel ----
+                categoryLabel.setText("\u7ec4\u7ec7\u7c7b\u522b\uff1a");
+                categoryLabel.setFont(categoryLabel.getFont().deriveFont(categoryLabel.getFont().getSize() + 5f));
+
+                //---- categoryField ----
+                categoryField.setFont(categoryField.getFont().deriveFont(categoryField.getFont().getSize() + 5f));
+
+                //---- industryLabel ----
+                industryLabel.setText("\u6240\u5c5e\u884c\u4e1a\uff1a");
+                industryLabel.setFont(industryLabel.getFont().deriveFont(industryLabel.getFont().getSize() + 5f));
+
+                //---- industryField ----
+                industryField.setFont(industryField.getFont().deriveFont(industryField.getFont().getSize() + 5f));
+
+                //---- selectGpButton ----
+                selectGpButton.setText("\u67e5\u8be2");
+                selectGpButton.setFont(selectGpButton.getFont().deriveFont(selectGpButton.getFont().getSize() + 5f));
+                selectGpButton.addActionListener(e -> selectGp(e));
+
+                //---- updateGpButton ----
+                updateGpButton.setText("\u66f4\u65b0");
+                updateGpButton.setFont(updateGpButton.getFont().deriveFont(updateGpButton.getFont().getSize() + 5f));
+                updateGpButton.addActionListener(e -> updateGpDate(e));
+
+                //---- deleteGpButton ----
+                deleteGpButton.setText("\u5220\u9664");
+                deleteGpButton.setFont(deleteGpButton.getFont().deriveFont(deleteGpButton.getFont().getSize() + 5f));
+                deleteGpButton.addActionListener(e -> deleteGp(e));
+
+                GroupLayout GpSelectAndUpdateAndDeletePanelLayout = new GroupLayout(GpSelectAndUpdateAndDeletePanel);
+                GpSelectAndUpdateAndDeletePanel.setLayout(GpSelectAndUpdateAndDeletePanelLayout);
+                GpSelectAndUpdateAndDeletePanelLayout.setHorizontalGroup(
+                        GpSelectAndUpdateAndDeletePanelLayout.createParallelGroup()
+                                .addComponent(scrollPane3, GroupLayout.DEFAULT_SIZE, 1147, Short.MAX_VALUE)
+                                .addGroup(GpSelectAndUpdateAndDeletePanelLayout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addGroup(GpSelectAndUpdateAndDeletePanelLayout.createParallelGroup()
+                                                .addComponent(vSpacer4, GroupLayout.DEFAULT_SIZE, 1135, Short.MAX_VALUE)
+                                                .addComponent(vSpacer5, GroupLayout.DEFAULT_SIZE, 1135, Short.MAX_VALUE)
+                                                .addGroup(GpSelectAndUpdateAndDeletePanelLayout.createSequentialGroup()
+                                                        .addComponent(hSpacer3, GroupLayout.PREFERRED_SIZE, 212, GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addGroup(GpSelectAndUpdateAndDeletePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                                                .addComponent(supGpLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                .addComponent(gpNameLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addGroup(GpSelectAndUpdateAndDeletePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                                                .addComponent(gpNameField, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+                                                                .addComponent(supGpField, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE))
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                        .addGroup(GpSelectAndUpdateAndDeletePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                                                .addComponent(categoryLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                .addComponent(industryLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                        .addGap(18, 18, 18)
+                                                        .addGroup(GpSelectAndUpdateAndDeletePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                                                .addComponent(categoryField, GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                                                                .addComponent(industryField, GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(vSpacer6, GroupLayout.DEFAULT_SIZE, 7, Short.MAX_VALUE)
+                                                        .addGap(71, 71, 71)
+                                                        .addGroup(GpSelectAndUpdateAndDeletePanelLayout.createParallelGroup()
+                                                                .addComponent(selectGpButton, GroupLayout.Alignment.TRAILING)
+                                                                .addComponent(updateGpButton, GroupLayout.Alignment.TRAILING)
+                                                                .addComponent(deleteGpButton, GroupLayout.Alignment.TRAILING))
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(hSpacer4, GroupLayout.PREFERRED_SIZE, 354, GroupLayout.PREFERRED_SIZE)))
+                                        .addContainerGap())
+                );
+                GpSelectAndUpdateAndDeletePanelLayout.setVerticalGroup(
+                        GpSelectAndUpdateAndDeletePanelLayout.createParallelGroup()
+                                .addGroup(GpSelectAndUpdateAndDeletePanelLayout.createSequentialGroup()
+                                        .addComponent(scrollPane3, GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(vSpacer4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(GpSelectAndUpdateAndDeletePanelLayout.createParallelGroup()
+                                                .addComponent(hSpacer4, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addGroup(GpSelectAndUpdateAndDeletePanelLayout.createSequentialGroup()
+                                                        .addGroup(GpSelectAndUpdateAndDeletePanelLayout.createParallelGroup()
+                                                                .addGroup(GpSelectAndUpdateAndDeletePanelLayout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
+                                                                        .addGroup(GroupLayout.Alignment.LEADING, GpSelectAndUpdateAndDeletePanelLayout.createSequentialGroup()
+                                                                                .addComponent(categoryField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                                                .addGap(18, 18, 18)
+                                                                                .addComponent(industryField))
+                                                                        .addGroup(GpSelectAndUpdateAndDeletePanelLayout.createSequentialGroup()
+                                                                                .addGroup(GpSelectAndUpdateAndDeletePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                                                        .addComponent(gpNameLabel, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+                                                                                        .addComponent(gpNameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                                                        .addComponent(categoryLabel, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+                                                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                                .addGroup(GpSelectAndUpdateAndDeletePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                                                                        .addComponent(industryLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                                        .addGroup(GpSelectAndUpdateAndDeletePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                                                                .addComponent(supGpLabel, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+                                                                                                .addComponent(supGpField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
+                                                                .addGroup(GpSelectAndUpdateAndDeletePanelLayout.createSequentialGroup()
+                                                                        .addComponent(selectGpButton, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                        .addComponent(updateGpButton, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                        .addComponent(deleteGpButton, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+                                                                .addComponent(vSpacer6, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
+                                                                .addComponent(hSpacer3, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE))
+                                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(vSpacer5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addContainerGap())
+                );
+            }
+            tabbedPane.addTab("\u56e2\u7ec4\u7ec7\u7684\u67e5\u8be2\u66f4\u65b0\u5220\u9664", GpSelectAndUpdateAndDeletePanel);
         }
 
         GroupLayout contentPaneLayout = new GroupLayout(contentPane);
@@ -512,7 +803,7 @@ public class AdminFrame extends JFrame {
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     private JTabbedPane tabbedPane;
-    private JPanel selectAndUpdateAndDeletePanel;
+    private JPanel userSelectAndUpdateAndDeletePanel;
     private JScrollPane scrollPane1;
     private JTable userTable;
     private JPanel vSpacer1;
@@ -541,5 +832,24 @@ public class AdminFrame extends JFrame {
     private JPanel vSpacer11;
     private JButton addSpaceButton;
     private JButton addUserButton;
+    private JPanel GpSelectAndUpdateAndDeletePanel;
+    private JScrollPane scrollPane3;
+    private JTable gpTable;
+    private JPanel vSpacer4;
+    private JPanel vSpacer5;
+    private JPanel hSpacer3;
+    private JPanel hSpacer4;
+    private JLabel gpNameLabel;
+    private JTextField gpNameField;
+    private JLabel supGpLabel;
+    private JTextField supGpField;
+    private JLabel categoryLabel;
+    private JTextField categoryField;
+    private JLabel industryLabel;
+    private JTextField industryField;
+    private JButton selectGpButton;
+    private JButton updateGpButton;
+    private JButton deleteGpButton;
+    private JPanel vSpacer6;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

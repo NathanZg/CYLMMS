@@ -41,7 +41,7 @@ public class LoginFrame {
                 closeView();
                 user = UserService.getUser(user.getIdCard());
                 if (user.getSuperAdmin() == 0) {
-                    MainFrame mainFrame = new MainFrame(UserService.getUser(idCard));
+                    MainFrame mainFrame = new MainFrame(user);
                     mainFrame.openView();
                 } else {
                     AdminFrame adminFrame = new AdminFrame();

@@ -2,6 +2,7 @@ package com.cylmms.service;
 
 import cn.hutool.core.util.StrUtil;
 import com.cylmms.mapper.UserMapper;
+import com.cylmms.pojo.Gp;
 import com.cylmms.pojo.User;
 import com.cylmms.pojo.UserExample;
 import com.cylmms.utils.EncryptUtils;
@@ -20,26 +21,6 @@ public class UserService extends BaseService {
         try (SqlSession sqlSession = getSqlSession()) {
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
             return mapper.selectByPrimaryKey(idCard);
-        }
-    }
-
-    public static void batchAddUser(List<User> userList) throws Exception {
-        try (SqlSession sqlSession = getBatchSqlSession()) {
-            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-            for (User user : userList) {
-                if (!isExit(user)) {
-                    if (check(user)) {
-                        user.setPassword(EncryptUtils.encode(user.getPassword()));
-                        mapper.insert(user);
-                    } else {
-                        sqlSession.rollback();
-                        throw new Exception("属性不可以为空！");
-                    }
-                } else {
-                    throw new Exception("身份证为【" + user.getIdCard() + "】的管理员已存在！");
-                }
-            }
-            sqlSession.commit();
         }
     }
 
@@ -83,6 +64,12 @@ public class UserService extends BaseService {
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
             if (!isExit(user)) {
                 if (check(user)) {
+                    String duty = user.getDuty();
+                    Gp gp = GpService.getGp(duty);
+                    if (gp == null) {
+                        sqlSession.rollback();
+                        throw new Exception("没有名为【" + duty + "】的团支部！");
+                    }
                     user.setPassword(EncryptUtils.encode(user.getPassword()));
                     mapper.insert(user);
                 } else {
@@ -91,6 +78,33 @@ public class UserService extends BaseService {
             } else {
                 throw new Exception("身份证为【" + user.getIdCard() + "】的用户已存在！");
             }
+        }
+    }
+
+    public static void batchAddUser(List<User> userList) throws Exception {
+        try (SqlSession sqlSession = getBatchSqlSession()) {
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            for (User user : userList) {
+                if (!isExit(user)) {
+                    if (check(user)) {
+                        String duty = user.getDuty();
+                        Gp gp = GpService.getGp(duty);
+                        if (gp == null) {
+                            sqlSession.rollback();
+                            throw new Exception("没有名为【" + duty + "】的团支部！");
+                        }
+                        user.setPassword(EncryptUtils.encode(user.getPassword()));
+                        mapper.insert(user);
+                    } else {
+                        sqlSession.rollback();
+                        throw new Exception("属性不可以为空！");
+                    }
+                } else {
+                    sqlSession.rollback();
+                    throw new Exception("身份证为【" + user.getIdCard() + "】的管理员已存在！");
+                }
+            }
+            sqlSession.commit();
         }
     }
 
