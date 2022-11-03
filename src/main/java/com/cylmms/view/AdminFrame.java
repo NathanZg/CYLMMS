@@ -45,9 +45,11 @@ public class AdminFrame extends JFrame {
         JTableHeader userTableHeader = userTable.getTableHeader();
         JTableHeader addUserTableHeader = addUserTable.getTableHeader();
         JTableHeader gpTableHeader = gpTable.getTableHeader();
+        JTableHeader addGpTableTableHeader = addGpTable.getTableHeader();
         userTableHeader.setFont(userTableHeader.getFont().deriveFont(userTableHeader.getFont().getSize() + 5f));
         addUserTableHeader.setFont(addUserTableHeader.getFont().deriveFont(addUserTableHeader.getFont().getSize() + 5f));
         gpTableHeader.setFont(gpTableHeader.getFont().deriveFont(gpTableHeader.getFont().getSize() + 5f));
+        addGpTableTableHeader.setFont(addGpTableTableHeader.getFont().deriveFont(addGpTableTableHeader.getFont().getSize() + 5f));
     }
 
     private void freshUserDate() {
@@ -178,8 +180,7 @@ public class AdminFrame extends JFrame {
         gp.setCategory(category);
         String industry = (String) model.getValueAt(rowIndex, 3);
         gp.setIndustry(industry);
-        Integer memNum = (Integer) model.getValueAt(rowIndex, 4);
-        gp.setMemNum(memNum);
+        gp.setMemNum(0);
         return gp;
     }
 
@@ -313,6 +314,66 @@ public class AdminFrame extends JFrame {
         }
     }
 
+    private void addGpSpace(ActionEvent e) {
+        String num = addGpNumField.getText();
+        if (!StrUtil.isEmpty(num)) {
+            Integer anInt;
+            if (NumberUtil.isNumber(num)) {
+                anInt = Integer.valueOf(num);
+            } else {
+                new ErrorDialog(new JFrame()).error("添加空行数输入错误！");
+                return;
+            }
+            Object[][] table = new Object[anInt][4];
+            addGpTable.setModel(new DefaultTableModel(
+                    table,
+                    new String[]{
+                            "\u540d\u79f0", "\u4e0a\u7ea7\u7ec4\u7ec7", "\u7ec4\u7ec7\u7c7b\u522b", "\u6240\u5c5e\u884c\u4e1a"
+                    }
+            ) {
+                Class<?>[] columnTypes = new Class<?>[]{
+                        String.class, String.class, String.class, String.class
+                };
+
+                @Override
+                public Class<?> getColumnClass(int columnIndex) {
+                    return columnTypes[columnIndex];
+                }
+            });
+        }
+    }
+
+    private void addGp(ActionEvent e) {
+        TableModel model = addGpTable.getModel();
+        int rowCount = addGpTable.getRowCount();
+        ArrayList<Gp> gpList = new ArrayList<>();
+        for (int i = 0; i < rowCount; i++) {
+            Gp gp = getGpData(model, i);
+            gpList.add(gp);
+        }
+        try {
+            GpService.batchAddGp(gpList);
+            addGpTable.setModel(new DefaultTableModel(
+                    new Object[][]{},
+                    new String[]{
+                            "\u540d\u79f0", "\u4e0a\u7ea7\u7ec4\u7ec7", "\u7ec4\u7ec7\u7c7b\u522b", "\u6240\u5c5e\u884c\u4e1a"
+                    }
+            ) {
+                Class<?>[] columnTypes = new Class<?>[]{
+                        String.class, String.class, String.class, String.class
+                };
+
+                @Override
+                public Class<?> getColumnClass(int columnIndex) {
+                    return columnTypes[columnIndex];
+                }
+            });
+            addNumField.setText("");
+        } catch (Exception ex) {
+            new ErrorDialog(new JFrame()).error(ex.getMessage());
+        }
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         tabbedPane = new JTabbedPane();
@@ -370,12 +431,12 @@ public class AdminFrame extends JFrame {
         vSpacer7 = new JPanel(null);
         vSpacer8 = new JPanel(null);
         hSpacer5 = new JPanel(null);
-        label1 = new JLabel();
-        textField1 = new JTextField();
+        addGpNumLabel = new JLabel();
+        addGpNumField = new JTextField();
         vSpacer12 = new JPanel(null);
         hSpacer8 = new JPanel(null);
-        button2 = new JButton();
-        button3 = new JButton();
+        addGpSpaceButton = new JButton();
+        addGpButton = new JButton();
 
         //======== this ========
         setTitle("\u56e2\u5458\u7ba1\u7406\u7cfb\u7edf-\u8d85\u7ea7\u7ba1\u7406");
@@ -822,23 +883,26 @@ public class AdminFrame extends JFrame {
                             return columnTypes[columnIndex];
                         }
                     });
+                    addGpTable.setRowHeight(35);
                     scrollPane4.setViewportView(addGpTable);
                 }
 
-                //---- label1 ----
-                label1.setText("\u6dfb\u52a0\u4e2a\u6570\uff1a");
-                label1.setFont(label1.getFont().deriveFont(label1.getFont().getSize() + 5f));
+                //---- addGpNumLabel ----
+                addGpNumLabel.setText("\u6dfb\u52a0\u4e2a\u6570\uff1a");
+                addGpNumLabel.setFont(addGpNumLabel.getFont().deriveFont(addGpNumLabel.getFont().getSize() + 5f));
 
-                //---- textField1 ----
-                textField1.setFont(textField1.getFont().deriveFont(textField1.getFont().getSize() + 5f));
+                //---- addGpNumField ----
+                addGpNumField.setFont(addGpNumField.getFont().deriveFont(addGpNumField.getFont().getSize() + 5f));
 
-                //---- button2 ----
-                button2.setText("\u6dfb\u52a0\u7a7a\u884c");
-                button2.setFont(button2.getFont().deriveFont(button2.getFont().getSize() + 5f));
+                //---- addGpSpaceButton ----
+                addGpSpaceButton.setText("\u6dfb\u52a0\u7a7a\u884c");
+                addGpSpaceButton.setFont(addGpSpaceButton.getFont().deriveFont(addGpSpaceButton.getFont().getSize() + 5f));
+                addGpSpaceButton.addActionListener(e -> addGpSpace(e));
 
-                //---- button3 ----
-                button3.setText("\u6dfb\u52a0\u56e2\u652f\u90e8");
-                button3.setFont(button3.getFont().deriveFont(button3.getFont().getSize() + 5f));
+                //---- addGpButton ----
+                addGpButton.setText("\u6dfb\u52a0\u56e2\u652f\u90e8");
+                addGpButton.setFont(addGpButton.getFont().deriveFont(addGpButton.getFont().getSize() + 5f));
+                addGpButton.addActionListener(e -> addGp(e));
 
                 GroupLayout gpAddPanelLayout = new GroupLayout(gpAddPanel);
                 gpAddPanel.setLayout(gpAddPanelLayout);
@@ -853,15 +917,15 @@ public class AdminFrame extends JFrame {
                                                 .addGroup(gpAddPanelLayout.createSequentialGroup()
                                                         .addComponent(hSpacer5, GroupLayout.PREFERRED_SIZE, 362, GroupLayout.PREFERRED_SIZE)
                                                         .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                        .addComponent(label1)
+                                                        .addComponent(addGpNumLabel)
                                                         .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                        .addComponent(textField1, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(addGpNumField, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
                                                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                         .addComponent(vSpacer12, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                                                         .addGroup(gpAddPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                                                .addComponent(button3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                .addComponent(button2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                                .addComponent(addGpButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                .addComponent(addGpSpaceButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                         .addComponent(hSpacer8, GroupLayout.PREFERRED_SIZE, 308, GroupLayout.PREFERRED_SIZE)))
                                         .addContainerGap())
@@ -876,14 +940,14 @@ public class AdminFrame extends JFrame {
                                         .addGroup(gpAddPanelLayout.createParallelGroup()
                                                 .addGroup(gpAddPanelLayout.createSequentialGroup()
                                                         .addGroup(gpAddPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                                .addComponent(label1, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-                                                                .addComponent(textField1))
+                                                                .addComponent(addGpNumLabel, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                                                                .addComponent(addGpNumField))
                                                         .addGap(0, 59, Short.MAX_VALUE))
                                                 .addComponent(vSpacer12, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
                                                 .addGroup(gpAddPanelLayout.createSequentialGroup()
-                                                        .addComponent(button2)
+                                                        .addComponent(addGpSpaceButton)
                                                         .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                        .addComponent(button3)
+                                                        .addComponent(addGpButton)
                                                         .addGap(0, 25, Short.MAX_VALUE))
                                                 .addComponent(hSpacer8, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
                                                 .addComponent(hSpacer5, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE))
@@ -966,11 +1030,11 @@ public class AdminFrame extends JFrame {
     private JPanel vSpacer7;
     private JPanel vSpacer8;
     private JPanel hSpacer5;
-    private JLabel label1;
-    private JTextField textField1;
+    private JLabel addGpNumLabel;
+    private JTextField addGpNumField;
     private JPanel vSpacer12;
     private JPanel hSpacer8;
-    private JButton button2;
-    private JButton button3;
+    private JButton addGpSpaceButton;
+    private JButton addGpButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

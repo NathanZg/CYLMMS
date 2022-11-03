@@ -129,12 +129,12 @@ public class GpService extends BaseService {
     public static boolean isExit(Gp gp) throws Exception {
         try (SqlSession sqlSession = getSqlSession()) {
             GpMapper mapper = sqlSession.getMapper(GpMapper.class);
-            Integer id = gp.getId();
-            if (id != null) {
-                Gp res = mapper.selectByPrimaryKey(id);
+            String name = gp.getName();
+            if (!StrUtil.isEmpty(name)) {
+                Gp res = mapper.selectByName(name);
                 return res != null;
             } else {
-                throw new Exception("id不可为空！");
+                throw new Exception("名称不可为空！");
             }
         }
     }

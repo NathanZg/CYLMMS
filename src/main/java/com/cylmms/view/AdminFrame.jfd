@@ -302,8 +302,8 @@ new FormModel {
 					"title": "团支部的查询更新删除"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {comp scrollPane4::l:::x, seq {space :::p, par l {comp vSpacer7:::::x, comp vSpacer8:::::x, seq l {comp hSpacer5:::p:362:p, space u:::p, comp label1:::p::p, space u:::p, comp textField1:::p:102:p, space :::p, comp vSpacer12:::p::p, space ::25:x, par l:::p {comp button3:::::x, comp button2:::::x}, space :::p, comp hSpacer8:::p:308:p}}, space :::p}}"
-					"$verticalGroup": "par l {seq l {comp scrollPane4::::340:x, space :::p, comp vSpacer7:::p::p, space :::p, par l {seq {par b {comp label1::b:p:40:p, comp textField1::b:::x}, space :0:59:x}, comp vSpacer12::l::99:x, seq {comp button2:::p::p, space u:::p, comp button3:::p::p, space :0:25:x}, comp hSpacer8::l::99:x, comp hSpacer5::l::99:x}, space :::p, comp vSpacer8:::p::p, space :::p}}"
+					"$horizontalGroup": "par l {comp scrollPane4::l:::x, seq {space :::p, par l {comp vSpacer7:::::x, comp vSpacer8:::::x, seq l {comp hSpacer5:::p:362:p, space u:::p, comp addGpNumLabel:::p::p, space u:::p, comp addGpNumField:::p:102:p, space :::p, comp vSpacer12:::p::p, space ::25:x, par l:::p {comp addGpButton:::::x, comp addGpSpaceButton:::::x}, space :::p, comp hSpacer8:::p:308:p}}, space :::p}}"
+					"$verticalGroup": "par l {seq l {comp scrollPane4::::340:x, space :::p, comp vSpacer7:::p::p, space :::p, par l {seq {par b {comp addGpNumLabel::b:p:40:p, comp addGpNumField::b:::x}, space :0:59:x}, comp vSpacer12::l::99:x, seq {comp addGpSpaceButton:::p::p, space u:::p, comp addGpButton:::p::p, space :0:25:x}, comp hSpacer8::l::99:x, comp hSpacer5::l::99:x}, space :::p, comp vSpacer8:::p::p, space :::p}}"
 				} ) {
 					name: "gpAddPanel"
 					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
@@ -333,6 +333,7 @@ new FormModel {
 								add( null )
 								add( null )
 							} )
+							"rowHeight": 35
 						} )
 					} )
 					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
@@ -345,12 +346,12 @@ new FormModel {
 						name: "hSpacer5"
 					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "label1"
+						name: "addGpNumLabel"
 						"text": "添加个数："
 						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
 					} )
 					add( new FormComponent( "javax.swing.JTextField" ) {
-						name: "textField1"
+						name: "addGpNumField"
 						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
 					} )
 					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
@@ -360,14 +361,16 @@ new FormModel {
 						name: "hSpacer8"
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "button2"
+						name: "addGpSpaceButton"
 						"text": "添加空行"
 						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "addGpSpace", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "button3"
+						name: "addGpButton"
 						"text": "添加团支部"
 						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 5, false )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "addGp", true ) )
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "团支部的添加"
