@@ -20,6 +20,8 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -307,9 +309,9 @@ public class AdminFrame extends JFrame {
         }
         try {
             GpService.batchDeleteGp(nameList);
-            freshUserDate();
+            freshGpDate();
         } catch (Exception ex) {
-            freshUserDate();
+            freshGpDate();
             new ErrorDialog(new JFrame()).error(ex.getMessage());
         }
     }
@@ -368,10 +370,14 @@ public class AdminFrame extends JFrame {
                     return columnTypes[columnIndex];
                 }
             });
-            addNumField.setText("");
+            addGpNumField.setText("");
         } catch (Exception ex) {
             new ErrorDialog(new JFrame()).error(ex.getMessage());
         }
+    }
+
+    private void thisWindowClosing(WindowEvent e) {
+        dispose();
     }
 
     private void initComponents() {
@@ -441,7 +447,13 @@ public class AdminFrame extends JFrame {
         //======== this ========
         setTitle("\u56e2\u5458\u7ba1\u7406\u7cfb\u7edf-\u8d85\u7ea7\u7ba1\u7406");
         setIconImage(new ImageIcon(getClass().getResource("/img/logo.jpeg")).getImage());
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                thisWindowClosing(e);
+            }
+        });
         Container contentPane = getContentPane();
 
         //======== tabbedPane ========

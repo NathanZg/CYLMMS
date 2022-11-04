@@ -10,7 +10,8 @@ new FormModel {
 			name: "this"
 			"title": "团员管理系统-超级管理"
 			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/img/logo.jpeg" )
-			"defaultCloseOperation": 2
+			"defaultCloseOperation": 3
+			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowClosing", "thisWindowClosing", true ) )
 			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
 				name: "tabbedPane"
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 7, false )

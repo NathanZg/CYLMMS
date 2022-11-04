@@ -28,7 +28,6 @@ import java.util.List;
 public class MainFrame {
     public MainFrame() {
         initComponents();
-        customInitComponents();
     }
 
     public MainFrame(User user) {
@@ -341,7 +340,7 @@ public class MainFrame {
             mainFrame.setTitle("\u56e2\u5458\u7ba1\u7406\u7cfb\u7edf");
             mainFrame.setResizable(false);
             mainFrame.setIconImage(new ImageIcon(getClass().getResource("/img/logo.jpeg")).getImage());
-            mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             Container mainFrameContentPane = mainFrame.getContentPane();
 
             //======== tabbedPane ========

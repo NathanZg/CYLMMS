@@ -11,7 +11,7 @@ new FormModel {
 			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/img/logo.jpeg" )
 			"title": "团员管理系统-登陆"
 			"resizable": false
-			"defaultCloseOperation": 2
+			"defaultCloseOperation": 3
 			add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
 				name: "layeredPane"
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {

@@ -70,7 +70,7 @@
                     <!-- 输出详细信息 -->
                     <verbose>true</verbose>
                     <!-- 覆盖生成文件 -->
-                    <overwrite>true</overwrite>
+                    <overwrite>false</overwrite>
                     <!-- 定义配置文件 -->
                     <configurationFile>${basedir}/src/main/resources/generatorConfig.xml</configurationFile>
                 </configuration>

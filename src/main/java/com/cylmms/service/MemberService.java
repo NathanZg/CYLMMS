@@ -140,17 +140,14 @@ public class MemberService extends BaseService {
     }
 
     public static boolean check(Member member) {
-        if (member.getAffiliated() == null ||
-                StrUtil.isEmpty(member.getName()) ||
-                StrUtil.isEmpty(member.getIdCard()) ||
-                StrUtil.isEmpty(member.getPoliticsStatus()) ||
-                member.getAge() == null ||
-                StrUtil.isEmpty(member.getDuty()) ||
-                member.getGroupAge() == null ||
-                StrUtil.isEmpty(member.getNational())) {
-            return false;
-        }
-        return true;
+        return member.getAffiliated() != null &&
+                !StrUtil.isEmpty(member.getName()) &&
+                !StrUtil.isEmpty(member.getIdCard()) &&
+                !StrUtil.isEmpty(member.getPoliticsStatus()) &&
+                member.getAge() != null &&
+                !StrUtil.isEmpty(member.getDuty()) &&
+                member.getGroupAge() != null &&
+                !StrUtil.isEmpty(member.getNational());
     }
 
     public static boolean isExit(Member member) throws Exception {

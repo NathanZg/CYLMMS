@@ -11,7 +11,7 @@ new FormModel {
 			"title": "团员管理系统"
 			"resizable": false
 			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/img/logo.jpeg" )
-			"defaultCloseOperation": 2
+			"defaultCloseOperation": 3
 			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
 				name: "tabbedPane"
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 7, false )

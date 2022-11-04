@@ -38,12 +38,12 @@ public class LoginFrame {
         User user = new User(idCard, password);
         try {
             if (UserService.login(user)) {
-                closeView();
+                loginFrame.setVisible(false);
                 user = UserService.getUser(user.getIdCard());
                 if (user.getSuperAdmin() == 0) {
                     MainFrame mainFrame = new MainFrame(user);
                     mainFrame.openView();
-                } else {
+                } else if (user.getSuperAdmin() == 1) {
                     AdminFrame adminFrame = new AdminFrame();
                     adminFrame.openView();
                 }
@@ -75,7 +75,7 @@ public class LoginFrame {
             loginFrame.setIconImage(new ImageIcon(getClass().getResource("/img/logo.jpeg")).getImage());
             loginFrame.setTitle("\u56e2\u5458\u7ba1\u7406\u7cfb\u7edf-\u767b\u9646");
             loginFrame.setResizable(false);
-            loginFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            loginFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             Container loginFrameContentPane = loginFrame.getContentPane();
 
             //======== layeredPane ========

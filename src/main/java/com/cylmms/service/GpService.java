@@ -39,6 +39,13 @@ public class GpService extends BaseService {
             for (Gp gp : gpList) {
                 if (!isExit(gp)) {
                     if (check(gp)) {
+                        String superior = gp.getSuperior();
+                        if (superior != null) {
+                            int count = mapper.getCountBySuperior(superior);
+                            if (count <= 0) {
+                                throw new Exception("不存在【" + superior + "】上级团组织！");
+                            }
+                        }
                         mapper.insert(gp);
                     } else {
                         sqlSession.rollback();
@@ -63,10 +70,10 @@ public class GpService extends BaseService {
         }
     }
 
-    public static void batchUpdateGp(List<Gp> GpList) throws Exception {
+    public static void batchUpdateGp(List<Gp> gpList) throws Exception {
         try (SqlSession sqlSession = getBatchSqlSession()) {
             GpMapper mapper = sqlSession.getMapper(GpMapper.class);
-            for (Gp gp : GpList) {
+            for (Gp gp : gpList) {
                 if (check(gp)) {
                     String superior = gp.getSuperior();
                     if (superior != null) {
@@ -104,6 +111,9 @@ public class GpService extends BaseService {
                     if (memNum > 0) {
                         sqlSession.rollback();
                         throw new Exception("名称为【" + name + "】的团支部人数大于零，无法删除！");
+                    } else if (UserService.ifExitUserInGp(gp.getName())) {
+                        sqlSession.rollback();
+                        throw new Exception("名称为【" + name + "】的团支部管理员人数大于零，无法删除！");
                     } else {
                         mapper.deleteByPrimaryKey(gp.getId());
                     }
@@ -117,13 +127,10 @@ public class GpService extends BaseService {
     }
 
     public static boolean check(Gp gp) {
-        if (StrUtil.isEmpty(gp.getName()) ||
-                StrUtil.isEmpty(gp.getCategory()) ||
-                StrUtil.isEmpty(gp.getIndustry()) ||
-                gp.getMemNum() == null) {
-            return false;
-        }
-        return true;
+        return !StrUtil.isEmpty(gp.getName()) &&
+                !StrUtil.isEmpty(gp.getCategory()) &&
+                !StrUtil.isEmpty(gp.getIndustry()) &&
+                gp.getMemNum() != null;
     }
 
     public static boolean isExit(Gp gp) throws Exception {

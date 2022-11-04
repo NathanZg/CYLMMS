@@ -24,6 +24,16 @@ public class UserService extends BaseService {
         }
     }
 
+    public static boolean ifExitUserInGp(String dutyName) {
+        try (SqlSession sqlSession = getSqlSession()) {
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            UserExample userExample = new UserExample();
+            userExample.createCriteria().andDutyEqualTo(dutyName);
+            long count = mapper.countByExample(userExample);
+            return count > 0;
+        }
+    }
+
     public static List<User> getByCondition(UserVo userVo) {
         try (SqlSession sqlSession = getSqlSession()) {
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
@@ -54,7 +64,7 @@ public class UserService extends BaseService {
                 User res = mapper.selectByPrimaryKey(idCard);
                 return res != null;
             } else {
-                throw new Exception("账号不可为空！");
+                throw new Exception("身份证不可为空！");
             }
         }
     }
@@ -189,13 +199,10 @@ public class UserService extends BaseService {
     }
 
     public static boolean check(User user) {
-        if (StrUtil.isEmpty(user.getIdCard()) ||
-                StrUtil.isEmpty(user.getName()) ||
-                StrUtil.isEmpty(user.getDuty()) ||
-                StrUtil.isEmpty(user.getPassword()) ||
-                user.getSuperAdmin() == null) {
-            return false;
-        }
-        return true;
+        return !StrUtil.isEmpty(user.getIdCard()) &&
+                !StrUtil.isEmpty(user.getName()) &&
+                !StrUtil.isEmpty(user.getDuty()) &&
+                !StrUtil.isEmpty(user.getPassword()) &&
+                user.getSuperAdmin() != null;
     }
 }

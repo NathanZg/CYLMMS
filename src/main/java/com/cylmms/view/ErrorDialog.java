@@ -52,7 +52,6 @@ public class ErrorDialog extends JDialog {
         errorMsg = new JTextArea();
 
         //======== this ========
-        setResizable(false);
         setTitle("\u9519\u8bef");
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
