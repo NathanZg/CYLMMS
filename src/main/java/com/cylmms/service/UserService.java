@@ -1,5 +1,6 @@
 package com.cylmms.service;
 
+import cn.hutool.core.util.IdcardUtil;
 import cn.hutool.core.util.StrUtil;
 import com.cylmms.mapper.UserMapper;
 import com.cylmms.pojo.Gp;
@@ -61,6 +62,9 @@ public class UserService extends BaseService {
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
             String idCard = user.getIdCard();
             if (!StrUtil.isEmpty(idCard)) {
+                if (!IdcardUtil.isValidCard(user.getIdCard())) {
+                    throw new Exception(user.getName() + "的身份证有误");
+                }
                 User res = mapper.selectByPrimaryKey(idCard);
                 return res != null;
             } else {

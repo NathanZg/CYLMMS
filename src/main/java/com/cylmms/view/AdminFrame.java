@@ -221,9 +221,13 @@ public class AdminFrame extends JFrame {
     private void addSpace(ActionEvent e) {
         String num = addNumField.getText();
         if (!StrUtil.isEmpty(num)) {
-            Integer anInt;
+            int anInt;
             if (NumberUtil.isNumber(num)) {
-                anInt = Integer.valueOf(num);
+                anInt = Integer.parseInt(num);
+                if (anInt < 0) {
+                    new ErrorDialog(new JFrame()).error("添加空行数输入错误！");
+                    return;
+                }
             } else {
                 new ErrorDialog(new JFrame()).error("添加空行数输入错误！");
                 return;
@@ -319,9 +323,13 @@ public class AdminFrame extends JFrame {
     private void addGpSpace(ActionEvent e) {
         String num = addGpNumField.getText();
         if (!StrUtil.isEmpty(num)) {
-            Integer anInt;
+            int anInt;
             if (NumberUtil.isNumber(num)) {
-                anInt = Integer.valueOf(num);
+                anInt = Integer.parseInt(num);
+                if (anInt < 0) {
+                    new ErrorDialog(new JFrame()).error("添加空行数输入错误！");
+                    return;
+                }
             } else {
                 new ErrorDialog(new JFrame()).error("添加空行数输入错误！");
                 return;
