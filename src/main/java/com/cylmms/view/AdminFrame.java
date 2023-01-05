@@ -211,7 +211,7 @@ public class AdminFrame extends JFrame {
             idCardList.add(idCard);
         }
         try {
-            UserService.batchDeleteMember(idCardList);
+            UserService.batchDeleteUser(idCardList);
             freshUserDate();
         } catch (Exception ex) {
             new ErrorDialog(new JFrame()).error(ex.getMessage());

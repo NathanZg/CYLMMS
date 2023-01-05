@@ -73,7 +73,7 @@ public class LoginFrame {
         //======== loginFrame ========
         {
             loginFrame.setIconImage(new ImageIcon(getClass().getResource("/img/logo.jpeg")).getImage());
-            loginFrame.setTitle("\u56e2\u5458\u7ba1\u7406\u7cfb\u7edf-\u767b\u9646");
+            loginFrame.setTitle("\u56e2\u5458\u7ba1\u7406\u7cfb\u7edf-\u767b\u5f55");
             loginFrame.setResizable(false);
             loginFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             Container loginFrameContentPane = loginFrame.getContentPane();

@@ -157,7 +157,7 @@ public class UserService extends BaseService {
         }
     }
 
-    public static void batchDeleteMember(List<String> idCardList) throws Exception {
+    public static void batchDeleteUser(List<String> idCardList) throws Exception {
         try (SqlSession sqlSession = getBatchSqlSession()) {
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
             for (String idCard : idCardList) {
